@@ -1,10 +1,8 @@
 FROM httpd:latest
 
-ENV PATH="${PATH}:/opt"
 ENV HTTPD_CONF="/usr/local/apache2/conf/httpd.conf"
 
 RUN apt update -y && apt install -y \
-    python3 \
     python-psycopg2 \
     libexpat1  \
     apache2-utils \

@@ -2,12 +2,15 @@ CURDIR=$(shell pwd)
 DC_MASTER="dc_master.yaml"
 DC_TEMP="docker-compose.yaml"
 
-all: prepare_yaml run_build tail_logs
-build: prepare_yaml run_build
-fromscratch: prepare_yaml run_remove run_build
+all: preparations run_build tail_logs
+build: preparations run_build
+fromscratch: preparations run_remove run_build
 remove: run_remove
 
-prepare_yaml:
+preparations:
+	mkdir -p ${CURDIR}/vol/log
+	mkdir -p ${CURDIR}/vol/rdmo-app
+	mkdir -p ${CURDIR}/vol/ve
 	cat ${DC_MASTER} \
 		| sed 's|<HOME>|${HOME}|g' \
 		| sed 's|<CURDIR>|${CURDIR}|g' \
