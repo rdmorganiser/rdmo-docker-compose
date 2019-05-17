@@ -1,0 +1,70 @@
+version: "3.6"
+
+
+volumes:
+    rdmosrc:
+        driver_opts:
+            type: none
+            device: <HOME>/rolling/aip/github/rdmo
+            o: bind
+    rdmoapp:
+        driver_opts:
+            type: none
+            device: <HOME>/rolling/aip/github/rdmo-app
+            o: bind
+    rdmostatic:
+        driver_opts:
+            type: none
+            device: <HOME>/rolling/aip/github/rdmo
+            o: bind
+    shed:
+        driver_opts:
+            type: none
+            device: <HOME>/tools/shed
+            o: bind
+    mybins:
+        driver_opts:
+            type: none
+            device: <HOME>/tools/mybins/x86_64
+            o: bind
+
+services:
+    postgres:
+        # image: postgres
+        build:
+            context: ./postgres
+        container_name: postgres
+        ports:
+            - "6543:5432"
+        env_file:
+            - 'variables.env'
+
+    nginx:
+        build:
+            context: ./nginx
+        container_name: nginx
+        ports:
+            - "8280:8280"
+        volumes:
+            - rdmosrc:/src/rdmo
+            - rdmoapp:/src/rdmo-app
+        env_file:
+            - 'variables.env'
+        depends_on:
+            - rdmo
+
+    rdmo:
+        build:
+            context: ./rdmo
+        container_name: rdmo
+        depends_on:
+            - postgres
+        ports:
+            - "8281:80"
+        volumes:
+            - rdmosrc:/src/rdmo
+            - rdmoapp:/src/rdmo-app
+            - shed:/tools/shed:ro
+            - mybins:/tools/mybins:ro
+        env_file:
+            - 'variables.env'
