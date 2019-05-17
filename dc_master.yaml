@@ -23,7 +23,7 @@ services:
             context: ./apache
         container_name: rdc-apache
         ports:
-            - "8484:80"
+            - "<FINALLY_EXPOSED_PORT>:80"
         volumes:
             - log:/vol/log
             - rdmoapp:/vol/rdmo-app

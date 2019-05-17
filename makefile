@@ -1,6 +1,7 @@
 CURDIR=$(shell pwd)
 DC_MASTER="dc_master.yaml"
 DC_TEMP="docker-compose.yaml"
+FINALLY_EXPOSED_PORT=$(shell cat variables.env | grep -Po "(?<=FINALLY_EXPOSED_PORT=)[0-9]+")
 
 all: preparations run_build tail_logs
 build: preparations run_build
@@ -14,6 +15,7 @@ preparations:
 	cat ${DC_MASTER} \
 		| sed 's|<HOME>|${HOME}|g' \
 		| sed 's|<CURDIR>|${CURDIR}|g' \
+		| sed 's|<FINALLY_EXPOSED_PORT>|${FINALLY_EXPOSED_PORT}|g' \
 		> ${DC_TEMP}
 
 run_build:

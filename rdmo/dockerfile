@@ -33,7 +33,4 @@ COPY ./rootfs /
 RUN useradd -ms /bin/bash rdmo
 USER rdmo
 
-HEALTHCHECK --timeout=5s --interval=5s --retries=3 \
-   CMD curl -f http://localhost:80 || exit 1
-
 CMD ["/drun.sh"]
