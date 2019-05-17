@@ -1,0 +1,22 @@
+FROM httpd:latest
+
+ENV PATH="${PATH}:/opt"
+ENV HTTPD_CONF="/usr/local/apache2/conf/httpd.conf"
+
+RUN apt update -y && apt install -y \
+    python3 \
+    python-psycopg2 \
+    libexpat1  \
+    apache2-utils \
+    ssl-cert \
+    libapache2-mod-wsgi-py3
+
+RUN echo "LoadModule wsgi_module /usr/lib/apache2/modules/mod_wsgi.so" >> ${HTTPD_CONF} \
+ && echo "IncludeOptional conf.d/*.conf" >> ${HTTPD_CONF}
+
+RUN mkdir -p /usr/local/apache2/conf.d
+COPY vhosts.conf /usr/local/apache2/conf.d/vhosts.conf
+
+RUN useradd -ms /bin/bash rdmo
+RUN mkdir -p /var/www/html
+RUN mkdir -p /var/run/apache2

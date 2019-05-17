@@ -2,6 +2,8 @@
 
 source /opt/ve.sh
 
+cp -f /tmp/wsgi.py /vol/rdmo-app/config/wsgi.py
+
 pip install --upgrade pip
 pip install --upgrade wheel
 pip install --upgrade setuptools

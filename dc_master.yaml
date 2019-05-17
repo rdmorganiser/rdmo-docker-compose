@@ -1,70 +1,54 @@
 version: "3.6"
 
-
 volumes:
-    rdmosrc:
+    log:
         driver_opts:
             type: none
-            device: <HOME>/rolling/aip/github/rdmo
+            device: <CURDIR>/vol/log
             o: bind
     rdmoapp:
         driver_opts:
             type: none
-            device: <HOME>/rolling/aip/github/rdmo-app
+            device: <CURDIR>/vol/rdmo-app
             o: bind
-    rdmostatic:
+    ve:
         driver_opts:
             type: none
-            device: <HOME>/rolling/aip/github/rdmo
-            o: bind
-    shed:
-        driver_opts:
-            type: none
-            device: <HOME>/tools/shed
-            o: bind
-    mybins:
-        driver_opts:
-            type: none
-            device: <HOME>/tools/mybins/x86_64
+            device: <CURDIR>/vol/ve
             o: bind
 
 services:
-    postgres:
-        # image: postgres
+    apache:
         build:
-            context: ./postgres
-        container_name: postgres
+            context: ./apache
+        container_name: rdc-apache
         ports:
-            - "6543:5432"
-        env_file:
-            - 'variables.env'
-
-    nginx:
-        build:
-            context: ./nginx
-        container_name: nginx
-        ports:
-            - "8280:8280"
+            - "8484:80"
         volumes:
-            - rdmosrc:/src/rdmo
-            - rdmoapp:/src/rdmo-app
+            - log:/vol/log
+            - rdmoapp:/vol/rdmo-app
+            - ve:/vol/ve
         env_file:
             - 'variables.env'
         depends_on:
             - rdmo
 
+    postgres:
+        build:
+            context: ./postgres
+        container_name: rdc-postgres
+        env_file:
+            - 'variables.env'
+
     rdmo:
         build:
             context: ./rdmo
-        container_name: rdmo
+        container_name: rdc-rdmo
         depends_on:
             - postgres
-        ports:
-            - "8281:80"
         volumes:
-            - rdmosrc:/src/rdmo
-            - rdmoapp:/src/rdmo-app
-            - shed:/tools/shed:ro
-            - mybins:/tools/mybins:ro
+            - log:/vol/log
+            - rdmoapp:/vol/rdmo-app
+            - ve:/vol/ve
         env_file:
             - 'variables.env'
