@@ -1,7 +1,9 @@
 CURDIR=$(shell pwd)
 DC_MASTER="dc_master.yaml"
 DC_TEMP="docker-compose.yaml"
-FINALLY_EXPOSED_PORT=$(shell cat variables.env | grep -Po "(?<=FINALLY_EXPOSED_PORT=)[0-9]+")
+VARS_ENV=$(shell if [ -f variables.local ]; then echo variables.local; else echo variables.env; fi)
+FINALLY_EXPOSED_PORT=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=FINALLY_EXPOSED_PORT=)[0-9]+")
+CONTAINER_NAME_PREFIX=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=CONTAINER_NAME_PREFIX=).*")
 
 all: preparations run_build tail_logs
 build: preparations run_build
@@ -15,6 +17,7 @@ preparations:
 	cat ${DC_MASTER} \
 		| sed 's|<HOME>|${HOME}|g' \
 		| sed 's|<CURDIR>|${CURDIR}|g' \
+		| sed 's|<CONTAINER_NAME_PREFIX>|${CONTAINER_NAME_PREFIX}|g' \
 		| sed 's|<FINALLY_EXPOSED_PORT>|${FINALLY_EXPOSED_PORT}|g' \
 		> ${DC_TEMP}
 
