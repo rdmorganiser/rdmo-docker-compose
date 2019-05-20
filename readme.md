@@ -41,3 +41,9 @@ During build four folders later used as volumes will be created under `vol/`. Th
 1. Import data from rdmo-catalog
 
     A fresh RDMO installation does not contain any data. You may want to import `conditions`, `domains`, `options`, `questions`, `tasks` and `views`. In the `RDMO container` there is a shell script that automatically clones the [rdmo-catalog repo](https://github.com/rdmorganiser/rdmo-catalog) and imports everything in it. If you consider it being helpful you could do `import-github-catalogues.sh`.
+
+## Multiple RDMO Instances on a Single Docker Host
+You can have multiple running RDMO instances on a single docker host if you pay attention to two things.
+
+1. Use different folders containing the `rdmo-docker-compose` repo to make sure docker-compose considers your build attempts to be different projects. Unfortunately currently there is no manual configuration for this because the `COMPOSE_PROJECT_NAME` option seems to be broken.
+1. Make sure to use different `GLOBAL_PREFIX` settings in your `variables.local` to avoid conflicts between your docker containers and volumes.
