@@ -1,7 +1,7 @@
 # RDMO Docker Compose
 
 ## Synopsis
-This repository contains RDMO docker images that are held together by [docker compose](https://github.com/docker/compose/releases) which obviously is required to make use of it.
+This repository contains RDMO docker images that are held together by [docker compose](https://github.com/docker/compose/releases) which obviously is required to make use of it. If not configured differently the built RDMO instance should be available at `localhost:8484`. Please see below how setting can be changed.
 
 
 ## Structure
@@ -9,9 +9,10 @@ This repository contains RDMO docker images that are held together by [docker co
 Three containers are going to be created running `Apache`, `PostgreSQL` and `RDMO`.
 
 ### Volumes
-During build three folders later used as volumes will be created under `vol/`. They contain the following:
+During build four folders later used as volumes will be created under `vol/`. They contain the following:
 
 1. `log` log files
+1. `postgres` database
 1. `rdmo-app` installation
 1. `ve` python's virtual environment
 
