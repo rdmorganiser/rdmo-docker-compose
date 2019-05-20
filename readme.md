@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/rdmorganiser/rdmo-docker-compose.svg?branch=master)](https://travis-ci.org/rdmorganiser/rdmo-docker-compose)
 # RDMO Docker Compose
 
 ## Synopsis
