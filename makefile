@@ -6,6 +6,7 @@ FINALLY_EXPOSED_PORT=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=FINALLY_E
 GLOBAL_PREFIX=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=GLOBAL_PREFIX=).*")
 
 all: preparations run_build tail_logs
+preps: preparations
 build: preparations run_build
 fromscratch: preparations run_remove run_build
 remove: run_remove
@@ -20,6 +21,7 @@ preparations:
 		| sed 's|<CURDIR>|${CURDIR}|g' \
 		| sed 's|<GLOBAL_PREFIX>|${GLOBAL_PREFIX}|g' \
 		| sed 's|<FINALLY_EXPOSED_PORT>|${FINALLY_EXPOSED_PORT}|g' \
+		| sed 's|<VARIABLES_FILE>|${VARS_ENV}|g' \
 		> ${DC_TEMP}
 
 run_build:

@@ -38,7 +38,7 @@ services:
             - rdmoapp:/vol/rdmo-app
             - ve:/vol/ve
         env_file:
-            - variables.env
+            - <VARIABLES_FILE>
         depends_on:
             - rdmo
 
@@ -49,7 +49,7 @@ services:
         volumes:
             - postgres:/var/lib/postgresql/data
         env_file:
-            - variables.env
+            - <VARIABLES_FILE>
 
     rdmo:
         build:
@@ -62,4 +62,4 @@ services:
             - rdmoapp:/vol/rdmo-app
             - ve:/vol/ve
         env_file:
-            - variables.env
+            - <VARIABLES_FILE>
