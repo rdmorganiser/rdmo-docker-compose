@@ -9,9 +9,6 @@ This repository contains RDMO docker images that are held together by [docker co
 ### Dockers
 Three containers are going to be created running `Apache`, `PostgreSQL` and `RDMO`.
 
-![](./architecture.png)
-
-
 ### Volumes
 During build four folders later used as volumes will be created under `vol/`. They contain the following:
 
@@ -19,6 +16,8 @@ During build four folders later used as volumes will be created under `vol/`. Th
 1. `postgres` database
 1. `rdmo-app` installation
 1. `ve` python's virtual environment
+
+![](./architecture.png)
 
 
 ## Configuration & Usage
