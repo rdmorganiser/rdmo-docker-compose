@@ -9,6 +9,9 @@ This repository contains RDMO docker images that are held together by [docker co
 ### Dockers
 Three containers are going to be created running `Apache`, `PostgreSQL` and `RDMO`.
 
+![](./architecture.png)
+
+
 ### Volumes
 During build four folders later used as volumes will be created under `vol/`. They contain the following:
 
