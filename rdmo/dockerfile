@@ -16,9 +16,7 @@ RUN apt install -y \
     libxml2-dev \
     libxslt-dev \
     zlib1g-dev \
-    pandoc \
     procps \
-    texlive-xetex \
     vim
 
 # postgres
