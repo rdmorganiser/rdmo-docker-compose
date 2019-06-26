@@ -19,7 +19,8 @@ SECRET_KEY = 'this is not a very secret key'
 '''
 The list of URLs und which this application available
 '''
-ALLOWED_HOSTS = ['localhost', 'ip6-localhost', '127.0.0.1', '[::1]', 'rdmo']
+ALLOWED_HOSTS = [x.strip() for x in os.environ['ALLOWED_HOSTS'].split(',')]
+# ALLOWED_HOSTS = ['localhost', 'ip6-localhost', '127.0.0.1', '[::1]', 'rdmo']
 
 '''
 The root url of your application, only needed when its not '/'
