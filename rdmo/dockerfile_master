@@ -1,5 +1,7 @@
 FROM debian:latest
 
+ARG UID=<UID>
+
 ENV PATH=/opt:${PATH}
 
 RUN apt update -y && apt install -y \
@@ -28,7 +30,7 @@ RUN apt install -y \
 
 COPY ./rootfs /
 
-RUN useradd -ms /bin/bash rdmo
+RUN useradd -m -u $UID -s /bin/bash rdmo
 USER rdmo
 
 CMD ["/drun.sh"]
