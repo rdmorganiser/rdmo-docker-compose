@@ -4,6 +4,7 @@ DC_TEMP="docker-compose.yaml"
 VARS_ENV=$(shell if [ -f variables.local ]; then echo variables.local; else echo variables.env; fi)
 GLOBAL_PREFIX=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=GLOBAL_PREFIX=).*")
 FINALLY_EXPOSED_PORT=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=FINALLY_EXPOSED_PORT=)[0-9]+")
+RESTART_POLICY=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=RESTART_POLICY=).*")
 DOCKER_IN_GROUPS=$(shell groups | grep "docker")
 MYID=$(shell id -u)
 
@@ -29,6 +30,7 @@ preparations:
 		| sed 's|<CURDIR>|${CURDIR}|g' \
 		| sed 's|<GLOBAL_PREFIX>|${GLOBAL_PREFIX}|g' \
 		| sed 's|<FINALLY_EXPOSED_PORT>|${FINALLY_EXPOSED_PORT}|g' \
+		| sed 's|<RESTART_POLICY>|${RESTART_POLICY}|g' \
 		| sed 's|<VARIABLES_FILE>|${VARS_ENV}|g' \
 		> ${DC_TEMP}
 		
