@@ -27,6 +27,8 @@ During build four folders later used as volumes will be created under `vol/`. Th
 
     Please note that you might need to change the `ALLOWED_HOSTS` entry depending on your server setup. The URL or IP under which RDMO is served needs to be allowed by putting it into the list. Usually the allowed hosts are declared in the `local.py`. In this docker compose setup we decided to move it into the environment variables and so the `variables.env` to raise awareness that the setting might need to be adjusted.
 
+    It is possible to change the restart policy of all three Docker services via changing the `RESTART_POLICY` variable.
+
 1. Build by running `make`
 
 1. Maybe create an RDMO user
