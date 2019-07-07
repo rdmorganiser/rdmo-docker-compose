@@ -31,6 +31,7 @@ services:
         build:
             context: ./apache
         container_name: <GLOBAL_PREFIX>apache
+        restart: "<RESTART_POLICY>"
         ports:
             - "<FINALLY_EXPOSED_PORT>:80"
         volumes:
@@ -46,6 +47,7 @@ services:
         build:
             context: ./postgres
         container_name: <GLOBAL_PREFIX>postgres
+        restart: "<RESTART_POLICY>"
         volumes:
             - postgres:/var/lib/postgresql/data
         env_file:
@@ -55,6 +57,7 @@ services:
         build:
             context: ./rdmo
         container_name: <GLOBAL_PREFIX>rdmo
+        restart: "<RESTART_POLICY>"
         depends_on:
             - postgres
         volumes:
