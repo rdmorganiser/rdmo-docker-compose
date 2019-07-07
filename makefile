@@ -9,10 +9,11 @@ DOCKER_IN_GROUPS=$(shell groups | grep "docker")
 MYID=$(shell id -u)
 
 ifeq ($(strip $(DOCKER_IN_GROUPS)),)
-SUDO_CMD=sudo 
+	DC_CMD=sudo docker-compose
 else
-SUDO_CMD=
+	DC_CMD=docker-compose
 endif
+
 
 all: preparations run_build tail_logs
 preps: preparations
@@ -33,21 +34,21 @@ preparations:
 		| sed 's|<RESTART_POLICY>|${RESTART_POLICY}|g' \
 		| sed 's|<VARIABLES_FILE>|${VARS_ENV}|g' \
 		> ${DC_TEMP}
-		
+
 	cat rdmo/dockerfile_master \
     	| sed 's|<UID>|$(MYID)|g' \
     	> rdmo/dockerfile
- 
+
 	cat apache/dockerfile_master \
     	| sed 's|<UID>|$(MYID)|g' \
     	> apache/dockerfile
 
 run_build:
-	$(SUDO_CMD)docker-compose up --build -d
+	$(DC_CMD) up --build -d
 
 run_remove:
-	$(SUDO_CMD)docker-compose down --rmi all
-	$(SUDO_CMD)docker-compose rm --force
+	$(DC_CMD) down --rmi all
+	$(DC_CMD) rm --force
 
 tail_logs:
-	$(SUDO_CMD)docker-compose logs -f
+	$(DC_CMD) logs -f
