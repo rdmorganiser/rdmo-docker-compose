@@ -2,7 +2,7 @@ FROM postgres:latest
 
 ENV PATH="${PATH}:/opt"
 
-RUN apt update -y && apt install \
+RUN apt update -y && apt upgrade -y && apt install -y \
     postgresql-client
 
 # not necessary, but for sake of clarity
