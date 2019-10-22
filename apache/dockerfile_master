@@ -25,12 +25,13 @@ RUN mkdir -p /usr/local/apache2/conf.d
 COPY ./vhosts.conf "${HTTPD_VHOSTS}"
 
 COPY ./drun.sh /drun.sh
+COPY ./healthcheck.sh /healthcheck.sh
 
 RUN useradd -m -u $UID -s /bin/bash rdmo
 RUN mkdir -p /var/www/html
 RUN mkdir -p /var/run/apache2
 
 HEALTHCHECK --timeout=10s --interval=20s --retries=3 \
-   CMD curl -f http://localhost:80 || exit 1
+   CMD /healthcheck.sh
 
 CMD ["/drun.sh"]
