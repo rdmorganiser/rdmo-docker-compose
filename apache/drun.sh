@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function sanitize(){
-    r="$(echo "${1}/" \
+    r="$(echo "/${1}/" \
         | tr -s "/" \
         | sed 's/.$//'
     )"
