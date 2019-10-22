@@ -25,7 +25,10 @@ ALLOWED_HOSTS = [x.strip() for x in os.environ['ALLOWED_HOSTS'].split(',')]
 '''
 The root url of your application, only needed when its not '/'
 '''
-BASE_URL = os.environ['BASE_URL']
+try:
+    BASE_URL = os.environ['BASE_URL']
+except KeyError:
+    BASE_URL = ''
 
 '''
 Language code and time zone
