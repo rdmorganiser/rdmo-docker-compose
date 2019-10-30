@@ -17,7 +17,7 @@ cryptographic signing, and should be set to a unique, unpredictable value.
 SECRET_KEY = 'this is not a very secret key'
 
 '''
-The list of URLs und which this application available
+The list of URLs under which this application is available
 '''
 ALLOWED_HOSTS = [x.strip() for x in os.environ['ALLOWED_HOSTS'].split(',')]
 # ALLOWED_HOSTS = ['localhost', 'ip6-localhost', '127.0.0.1', '[::1]', 'rdmo']
@@ -25,7 +25,10 @@ ALLOWED_HOSTS = [x.strip() for x in os.environ['ALLOWED_HOSTS'].split(',')]
 '''
 The root url of your application, only needed when its not '/'
 '''
-# BASE_URL = '/path'
+try:
+    BASE_URL = os.environ['BASE_URL']
+except KeyError:
+    BASE_URL = ''
 
 '''
 Language code and time zone
