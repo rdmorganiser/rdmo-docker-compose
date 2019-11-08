@@ -6,7 +6,7 @@ GLOBAL_PREFIX=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=GLOBAL_PREFIX=).
 FINALLY_EXPOSED_PORT=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=FINALLY_EXPOSED_PORT=)[0-9]+")
 RESTART_POLICY=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=RESTART_POLICY=).*")
 DOCKER_IN_GROUPS=$(shell groups | grep "docker")
-MYID=$(shell if [ "$(shell id -u)" == "0" ]; then echo 1000; else id -u; fi)
+MYID=$(shell id -u)
 
 ifeq ($(strip $(DOCKER_IN_GROUPS)),)
 	DC_CMD=sudo docker-compose
