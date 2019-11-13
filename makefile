@@ -8,6 +8,7 @@ RESTART_POLICY=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=RESTART_POLICY=
 DOCKER_IN_GROUPS=$(shell groups | grep "docker")
 MYID=$(shell id -u)
 
+
 ifeq ($(strip $(DOCKER_IN_GROUPS)),)
 	DC_CMD=sudo docker-compose
 else
@@ -15,11 +16,19 @@ else
 endif
 
 
-all: preparations run_build tail_logs
-preps: preparations
-build: preparations run_build
-fromscratch: preparations run_remove run_build
-remove: run_remove
+all: root_check preparations run_build tail_logs
+preps: root_check preparations
+build: root_check preparations run_build
+restart: run_restart
+fromscratch: root_check preparations run_remove run_build
+remove: root_check run_remove
+
+
+root_check:
+	@if [ "${MYID}" = "0" ]; then \
+		echo Please do not run as root. It is neither recommended nor would it work.; \
+	fi
+	@exit
 
 preparations:
 	mkdir -p ${CURDIR}/vol/log
@@ -49,6 +58,9 @@ run_build:
 run_remove:
 	$(DC_CMD) down --rmi all
 	$(DC_CMD) rm --force
+
+run_restart:
+	$(DC_CMD) restart
 
 tail_logs:
 	$(DC_CMD) logs -f

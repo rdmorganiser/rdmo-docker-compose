@@ -32,7 +32,7 @@ COPY ./rootfs /
 
 RUN chmod -R 777 /tmp
 
-RUN useradd -m -u $UID -s /bin/bash rdmo
+RUN useradd -m -u ${UID} -s /bin/bash rdmo
 USER rdmo
 
 CMD ["/drun.sh"]
