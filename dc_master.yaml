@@ -1,39 +1,13 @@
 version: "3.7"
 
-volumes:
-    log:
-        name: <GLOBAL_PREFIX>log
-        driver_opts:
-            type: none
-            device: <CURDIR>/vol/log
-            o: bind
-    postgres:
-        name: <GLOBAL_PREFIX>postgres
-        driver_opts:
-            type: none
-            device: <CURDIR>/vol/postgres
-            o: bind
-    rdmoapp:
-        name: <GLOBAL_PREFIX>rdmoapp
-        driver_opts:
-            type: none
-            device: <CURDIR>/vol/rdmo-app
-            o: bind
-    ve:
-        name: <GLOBAL_PREFIX>ve
-        driver_opts:
-            type: none
-            device: <CURDIR>/vol/ve
-            o: bind
-
 services:
-    apache:
+    nginx:
         build:
-            context: ./apache
-        container_name: <GLOBAL_PREFIX>apache
+            context: ./nginx
+        container_name: <GLOBAL_PREFIX>nginx
         restart: "<RESTART_POLICY>"
         ports:
-            - "<FINALLY_EXPOSED_PORT>:80"
+            - "<FINALLY_EXPOSED_PORT>:8080"
         volumes:
             - log:/vol/log
             - rdmoapp:/vol/rdmo-app
@@ -66,3 +40,29 @@ services:
             - ve:/vol/ve
         env_file:
             - <VARIABLES_FILE>
+
+volumes:
+    log:
+        name: <GLOBAL_PREFIX>log
+        driver_opts:
+            type: none
+            device: <CURDIR>/vol/log
+            o: bind
+    postgres:
+        name: <GLOBAL_PREFIX>postgres
+        driver_opts:
+            type: none
+            device: <CURDIR>/vol/postgres
+            o: bind
+    rdmoapp:
+        name: <GLOBAL_PREFIX>rdmoapp
+        driver_opts:
+            type: none
+            device: <CURDIR>/vol/rdmo-app
+            o: bind
+    ve:
+        name: <GLOBAL_PREFIX>ve
+        driver_opts:
+            type: none
+            device: <CURDIR>/vol/ve
+            o: bind

@@ -44,13 +44,13 @@ preparations:
 		| sed 's|<VARIABLES_FILE>|${VARS_ENV}|g' \
 		> ${DC_TEMP}
 
+	cat nginx/dockerfile_master \
+		| sed 's|<UID>|$(MYID)|g' \
+		> nginx/dockerfile
+
 	cat rdmo/dockerfile_master \
     	| sed 's|<UID>|$(MYID)|g' \
     	> rdmo/dockerfile
-
-	cat apache/dockerfile_master \
-    	| sed 's|<UID>|$(MYID)|g' \
-    	> apache/dockerfile
 
 run_build:
 	$(DC_CMD) up --build -d

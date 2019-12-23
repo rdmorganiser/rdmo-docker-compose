@@ -1,6 +1,7 @@
-FROM debian:latest
+FROM debian:10
 
 ARG UID=<UID>
+ENV USER=rdmo
 
 ENV PATH=/opt:${PATH}
 
@@ -29,10 +30,10 @@ RUN apt install -y \
     python-psycopg2
 
 COPY ./rootfs /
-
 RUN chmod -R 777 /tmp
 
-RUN useradd -m -u ${UID} -s /bin/bash rdmo
-USER rdmo
+RUN useradd -m -u ${UID} -s /bin/bash "${USER}"
+RUN chown "${USER}:${USER}" "/home/${USER}"
 
+USER "${USER}"
 CMD ["/drun.sh"]

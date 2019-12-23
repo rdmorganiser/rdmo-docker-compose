@@ -28,7 +28,7 @@ The root url of your application, only needed when its not '/'
 try:
     BASE_URL = os.environ['BASE_URL']
 except KeyError:
-    BASE_URL = ''
+    pass
 
 '''
 Language code and time zone

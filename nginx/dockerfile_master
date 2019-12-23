@@ -1,0 +1,15 @@
+FROM debian:10
+
+ARG UID=<UID>
+ENV USER=nginx
+
+RUN apt update -y && apt install -y \
+    nginx \
+    curl
+
+RUN rm -rf /etc/nginx/sites-enabled
+COPY ./rootfs /
+
+RUN useradd -m -u ${UID} -s /bin/bash "${USER}"
+
+CMD ["/drun.sh"]
