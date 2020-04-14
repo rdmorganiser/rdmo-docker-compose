@@ -29,6 +29,11 @@ RUN apt install -y \
     postgresql-client \
     python-psycopg2
 
+# for document export
+RUN apt install -y \
+    pandoc \
+    texlive-xetex
+
 COPY ./rootfs /
 RUN chmod -R 777 /tmp
 
