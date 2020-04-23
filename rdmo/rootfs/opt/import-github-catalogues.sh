@@ -8,7 +8,16 @@ fi
 
 git clone ${RDMO_CATALOG_REPO} ${RDMO_CATALOG}
 
-arr=($(find  "${RDMO_CATALOG}" -regex ".*catalog\/.*\.xml$"))
+arr=($(
+    find "${RDMO_CATALOG}/rdmorganiser/conditions" \
+        -regex ".*catalog\/.*\.xml$" | sort
+))
+arr+=($(
+    find "${RDMO_CATALOG}/rdmorganiser" \
+        -regex ".*catalog\/.*\.xml$" \
+        | grep -v "/conditions/" \
+        | sort
+))
 
 IFS=$'\n'
 sorted=($(sort <<<"${arr[*]}"))
