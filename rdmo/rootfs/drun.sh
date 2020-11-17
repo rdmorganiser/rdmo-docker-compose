@@ -2,6 +2,15 @@
 
 source /opt/ve.sh
 
+function waitforpg() {
+    pg_isready -h ${POSTGRES_HOST} -U ${POSTGRES_USER} || (
+        sleep 1
+        waitforpg
+    )
+}
+
+waitforpg
+
 if [[ $(pip freeze | grep -Poc "^rdmo==") == "0" ]]; then
     /opt/install-rdmo.sh
 else
