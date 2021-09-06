@@ -43,7 +43,7 @@ http://rdmo.readthedocs.io/en/latest/configuration/databases.html
 # NOTE: using environment variables here that come from the docker
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ['POSTGRES_DB'],
         'USER': os.environ['POSTGRES_USER'],
         'PASSWORD': os.environ['POSTGRES_PASSWORD'],
