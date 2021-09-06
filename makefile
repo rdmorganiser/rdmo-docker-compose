@@ -1,4 +1,5 @@
 CURDIR=$(shell pwd)
+VOLDIR=$(CURDIR)/vol
 DC_MASTER="dc_master.yaml"
 DC_TEMP="docker-compose.yaml"
 VARS_ENV=$(shell if [ -f variables.local ]; then echo variables.local; else echo variables.env; fi)
@@ -31,10 +32,10 @@ root_check:
 	@exit
 
 preparations:
-	mkdir -p ${CURDIR}/vol/log
-	mkdir -p ${CURDIR}/vol/postgres
-	mkdir -p ${CURDIR}/vol/rdmo-app
-	mkdir -p ${CURDIR}/vol/ve
+	mkdir -p ${VOLDIR}/log
+	mkdir -p ${VOLDIR}/postgres
+	mkdir -p ${VOLDIR}/rdmo-app
+	mkdir -p ${VOLDIR}/ve
 	cat ${DC_MASTER} \
 		| sed 's|<HOME>|${HOME}|g' \
 		| sed 's|<CURDIR>|${CURDIR}|g' \
