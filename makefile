@@ -17,11 +17,11 @@ else
 endif
 
 
-all: root_check preparations run_build tail_logs
+all: root_check preparations run_pull run_build tail_logs
 preps: root_check preparations
-build: root_check preparations run_build
+build: root_check preparations run_pull run_build
 restart: run_restart
-fromscratch: root_check preparations run_remove run_build
+fromscratch: root_check preparations run_remove run_pull run_build
 remove: root_check run_remove
 
 
@@ -52,6 +52,9 @@ preparations:
 	cat rdmo/dockerfile_master \
     	| sed 's|<UID>|$(MYID)|g' \
     	> rdmo/dockerfile
+
+run_pull:
+	$(DC_CMD) pull
 
 run_build:
 	$(DC_CMD) up --build -d
