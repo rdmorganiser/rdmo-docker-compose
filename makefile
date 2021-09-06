@@ -39,6 +39,7 @@ preparations:
 	cat ${DC_MASTER} \
 		| sed 's|<HOME>|${HOME}|g' \
 		| sed 's|<CURDIR>|${CURDIR}|g' \
+		| sed 's|<VOLDIR>|${VOLDIR}|g' \
 		| sed 's|<GLOBAL_PREFIX>|${GLOBAL_PREFIX}|g' \
 		| sed 's|<FINALLY_EXPOSED_PORT>|${FINALLY_EXPOSED_PORT}|g' \
 		| sed 's|<RESTART_POLICY>|${RESTART_POLICY}|g' \
