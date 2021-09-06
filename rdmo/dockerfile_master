@@ -54,7 +54,7 @@ COPY ./rootfs /
 RUN chmod -R 777 /tmp
 
 RUN useradd -m -u ${UID} -s /bin/bash "${USER}"
-RUN chown "${USER}:${USER}" "/home/${USER}"
+RUN chown -R "${USER}:${USER}" "/home/${USER}"
 
 USER "${USER}"
 CMD ["/drun.sh"]
