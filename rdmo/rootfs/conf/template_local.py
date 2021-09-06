@@ -14,7 +14,7 @@ DEBUG = False
 A secret key for a particular Django installation. This is used to provide
 cryptographic signing, and should be set to a unique, unpredictable value.
 '''
-SECRET_KEY = 'this is not a very secret key'
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 '''
 The list of URLs under which this application is available
