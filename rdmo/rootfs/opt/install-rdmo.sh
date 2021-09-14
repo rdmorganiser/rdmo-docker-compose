@@ -2,13 +2,18 @@
 
 source /opt/ve.sh
 
-
 pip install --upgrade pip
 pip install --upgrade wheel
 pip install --upgrade setuptools
+
+# TODO: probably remove when rdmo 1.6 is out
 pip install psycopg2
 
-pip install --upgrade git+https://github.com/rdmorganiser/rdmo@1.6-rc.1
+if [[ -n "${RDMO_INSTALL_URL}" ]]; then
+    pip install "${RDMO_INSTALL_URL}"
+else
+    pip install rdmo
+fi
 
 git clone ${RDMO_APP_REPO} ${RDMO_APP}
 cp -f /conf/template_local.py ${RDMO_APP}/config/settings/local.py
