@@ -11,7 +11,7 @@ function waitforpg() {
 
 waitforpg
 
-if [[ $(pip freeze | grep -Poc "^rdmo==") == "0" ]]; then
+if [ $(pip freeze | grep -Poc "^rdmo==") -eq 0 ] && [ $(pip freeze | grep -Poc "^rdmo @") -eq 0 ]; then
     /opt/install-rdmo.sh
 else
     echo "Won't do anything because RDMO is already installed."
