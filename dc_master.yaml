@@ -46,23 +46,23 @@ volumes:
         name: <GLOBAL_PREFIX>log
         driver_opts:
             type: none
-            device: <CURDIR>/vol/log
+            device: <VOLDIR>/log
             o: bind
     postgres:
         name: <GLOBAL_PREFIX>postgres
         driver_opts:
             type: none
-            device: <CURDIR>/vol/postgres
+            device: <VOLDIR>/postgres
             o: bind
     rdmoapp:
         name: <GLOBAL_PREFIX>rdmoapp
         driver_opts:
             type: none
-            device: <CURDIR>/vol/rdmo-app
+            device: <VOLDIR>/rdmo-app
             o: bind
     ve:
         name: <GLOBAL_PREFIX>ve
         driver_opts:
             type: none
-            device: <CURDIR>/vol/ve
+            device: <VOLDIR>/ve
             o: bind

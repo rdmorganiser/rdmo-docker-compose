@@ -14,7 +14,7 @@ DEBUG = False
 A secret key for a particular Django installation. This is used to provide
 cryptographic signing, and should be set to a unique, unpredictable value.
 '''
-SECRET_KEY = 'this is not a very secret key'
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 '''
 The list of URLs under which this application is available
@@ -43,7 +43,7 @@ http://rdmo.readthedocs.io/en/latest/configuration/databases.html
 # NOTE: using environment variables here that come from the docker
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ['POSTGRES_DB'],
         'USER': os.environ['POSTGRES_USER'],
         'PASSWORD': os.environ['POSTGRES_PASSWORD'],

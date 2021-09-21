@@ -1,11 +1,12 @@
-FROM debian:10
+FROM debian:stable
 
 ARG UID=<UID>
 ENV USER=nginx
 
-RUN apt update -y && apt install -y \
-    nginx \
-    curl
+RUN apt update && apt upgrade -y && apt install -y \
+        nginx \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN rm -rf /etc/nginx/sites-enabled
 COPY ./rootfs /
