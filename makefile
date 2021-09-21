@@ -4,7 +4,7 @@ DC_MASTER="dc_master.yaml"
 DC_TEMP="docker-compose.yaml"
 VARS_ENV=$(shell if [ -f variables.local ]; then echo variables.local; else echo variables.env; fi)
 GLOBAL_PREFIX=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=GLOBAL_PREFIX=).*")
-FINALLY_EXPOSED_PORT=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=FINALLY_EXPOSED_PORT=)[0-9]+")
+FINALLY_EXPOSED_PORT=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=FINALLY_EXPOSED_PORT=)[.:0-9]+")
 RESTART_POLICY=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=RESTART_POLICY=).*")
 DOCKER_IN_GROUPS=$(shell groups | grep "docker")
 MYID=$(shell id -u)
