@@ -22,6 +22,11 @@ The list of URLs under which this application is available
 ALLOWED_HOSTS = [x.strip() for x in os.environ['ALLOWED_HOSTS'].split(',')]
 # ALLOWED_HOSTS = ['localhost', 'ip6-localhost', '127.0.0.1', '[::1]', 'rdmo']
 
+# enable settings below if rdmo docker compose is behind a reverse proxy
+# to make sure rdmo's urls are correctly set (i.e. in sent mails etc.)
+# USE_X_FORWARDED_HOST = True
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 '''
 The root url of your application, only needed when its not '/'
 '''
