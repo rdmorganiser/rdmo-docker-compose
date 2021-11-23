@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM debian:latest
 
 ARG UID=<UID>
 ENV USER=rdmo
