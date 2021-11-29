@@ -48,11 +48,11 @@ preparations:
 
 	cat nginx/dockerfile_master \
 		| sed 's|<UID>|$(MYID)|g' \
-		> nginx/dockerfile
+		> nginx/Dockerfile
 
 	cat rdmo/dockerfile_master \
     	| sed 's|<UID>|$(MYID)|g' \
-    	> rdmo/dockerfile
+    	> rdmo/Dockerfile
 
 run_pull:
 	$(DC_CMD) pull
