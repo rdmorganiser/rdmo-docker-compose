@@ -6,5 +6,4 @@ variables.local
 rdmo/dockerfile
 rdmo/Dockerfile
 nginx/dockerfile
-rdmordmo/dockerfile
 nginx/Dockerfile
