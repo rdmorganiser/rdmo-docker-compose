@@ -9,6 +9,10 @@
 		path_regexp static ^.*/static/(.*)$
 	}
 
+	log {
+		output file /vol/log/caddy.log
+	}
+
 	route @static {
 		rewrite * {http.regexp.static.1}
 		file_server {
