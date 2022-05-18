@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /opt/ve.sh
+source ${HOME}/sh/ve.sh
 
 pip install --upgrade pip
 pip install --upgrade wheel
