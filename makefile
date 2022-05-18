@@ -7,7 +7,8 @@ GLOBAL_PREFIX=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=GLOBAL_PREFIX=).
 FINALLY_EXPOSED_PORT=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=FINALLY_EXPOSED_PORT=)[.:0-9]+")
 RESTART_POLICY=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=RESTART_POLICY=).*")
 DOCKER_IN_GROUPS=$(shell groups | grep "docker")
-MYID=$(shell id -u)
+LOCAL_USER=$(shell whoami)
+LOCAL_UID=$(shell id -u)
 
 
 ifeq ($(strip $(DOCKER_IN_GROUPS)),)
@@ -26,7 +27,7 @@ remove: root_check run_remove
 
 
 root_check:
-	@if [ "${MYID}" = "0" ]; then \
+	@if [ "${LOCAL_UID}" = "0" ]; then \
 		echo Please do not run as root. It is neither recommended nor would it work.; \
 	fi
 	@exit
@@ -44,15 +45,9 @@ preparations:
 		| sed 's|<FINALLY_EXPOSED_PORT>|${FINALLY_EXPOSED_PORT}|g' \
 		| sed 's|<RESTART_POLICY>|${RESTART_POLICY}|g' \
 		| sed 's|<VARIABLES_FILE>|${VARS_ENV}|g' \
+		| sed "s|<LOCAL_USER>|${LOCAL_USER}|g" \
+		| sed 's|<LOCAL_UID>|${LOCAL_UID}|g' \
 		> ${DC_TEMP}
-
-	cat nginx/dockerfile_master \
-		| sed 's|<UID>|$(MYID)|g' \
-		> nginx/Dockerfile
-
-	cat rdmo/dockerfile_master \
-    	| sed 's|<UID>|$(MYID)|g' \
-    	> rdmo/Dockerfile
 
 run_pull:
 	$(DC_CMD) pull

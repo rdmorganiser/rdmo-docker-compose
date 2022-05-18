@@ -12,4 +12,4 @@ alias l="ls --color=auto -CF"
 alias ll="ls --color=auto -alF"
 alias la="ls --color=auto -AlF"
 
-source /opt/ve.sh
+source ${HOME}/sh/ve.sh

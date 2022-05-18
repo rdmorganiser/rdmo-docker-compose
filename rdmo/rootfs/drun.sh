@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /opt/ve.sh
+source "${HOME}/sh/ve.sh"
 
 function waitforpg() {
     pg_isready -h ${POSTGRES_HOST} -U ${POSTGRES_USER} || (
@@ -12,11 +12,10 @@ function waitforpg() {
 waitforpg
 
 if [ $(pip freeze | grep -Poc "^rdmo==") -eq 0 ] && [ $(pip freeze | grep -Poc "^rdmo @") -eq 0 ]; then
-    /opt/install-rdmo.sh
+    ${HOME}/sh/install-rdmo.sh
 else
     echo "Won't do anything because RDMO is already installed."
 fi
-
 
 echo "Run gunicorn"
 cd "${RDMO_APP}"

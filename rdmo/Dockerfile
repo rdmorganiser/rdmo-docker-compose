@@ -1,11 +1,11 @@
-FROM debian:latest
+FROM debian:11
 
-ARG UID=<UID>
 ENV USER=rdmo
+ENV HOME="/home/rdmo"
 
-ARG DEBIAN_FRONTEND=noninteractive
+ARG UID
 
-ENV PATH=/opt:${PATH}
+ENV PATH=${PATH}:${HOME}/sh
 
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
@@ -54,7 +54,7 @@ COPY ./rootfs /
 RUN chmod -R 777 /tmp
 
 RUN useradd -m -u ${UID} -s /bin/bash "${USER}"
-RUN chown -R "${USER}:${USER}" "/home/${USER}"
+RUN chown -R "${USER}:${USER}" "${HOME}"
 
 USER "${USER}"
 CMD ["/drun.sh"]

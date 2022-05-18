@@ -2,9 +2,13 @@ FROM postgres:latest
 
 ENV PATH="${PATH}:/opt"
 
+ARG UID
+
 RUN apt update && apt upgrade -y && apt install -y \
         postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# not necessary, but for sake of clarity
+RUN chown -R ${UID} /var/lib/postgresql
+
+USER ${UID}
 CMD ["postgres"]

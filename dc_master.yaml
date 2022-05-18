@@ -1,10 +1,12 @@
 version: "3.7"
 
 services:
-    nginx:
+    caddy:
         build:
-            context: ./nginx
-        container_name: <GLOBAL_PREFIX>nginx
+            context: ./caddy
+            args:
+                UID: <LOCAL_UID>
+        container_name: <GLOBAL_PREFIX>caddy
         restart: "<RESTART_POLICY>"
         ports:
             - "<FINALLY_EXPOSED_PORT>:8080"
@@ -20,6 +22,8 @@ services:
     postgres:
         build:
             context: ./postgres
+            args:
+                UID: <LOCAL_UID>
         container_name: <GLOBAL_PREFIX>postgres
         restart: "<RESTART_POLICY>"
         volumes:
@@ -30,6 +34,8 @@ services:
     rdmo:
         build:
             context: ./rdmo
+            args:
+                UID: <LOCAL_UID>
         container_name: <GLOBAL_PREFIX>rdmo
         restart: "<RESTART_POLICY>"
         depends_on:
