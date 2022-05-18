@@ -1,0 +1,20 @@
+{
+	# debug
+	http_port 8080
+	auto_https disable_redirects
+}
+
+:8080 {
+	@static {
+		path_regexp static ^.*/static/(.*)$
+	}
+
+	route @static {
+		rewrite * {http.regexp.static.1}
+		file_server {
+			root /vol/rdmo-app/static_root
+		}
+	}
+
+	reverse_proxy * rdc-rdmo:8080
+}
