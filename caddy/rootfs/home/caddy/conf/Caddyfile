@@ -10,7 +10,13 @@
 	}
 
 	log {
-		output file /vol/log/caddy.log
+		level info
+		format json
+		output file /vol/log/caddy.log {
+			roll_size 10MiB
+			roll_keep 10
+			roll_keep_for 4320h
+		}
 	}
 
 	route @static {
