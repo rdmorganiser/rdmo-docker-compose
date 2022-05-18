@@ -2,8 +2,3 @@
 vol/
 docker-compose.yaml
 variables.local
-
-rdmo/dockerfile
-rdmo/Dockerfile
-nginx/dockerfile
-nginx/Dockerfile
