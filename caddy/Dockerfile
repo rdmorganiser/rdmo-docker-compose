@@ -27,4 +27,4 @@ RUN ${HOME}/sh/install-from-github.sh \
     "${HOME}/bin"
 
 WORKDIR ${HOME}/conf
-CMD ["caddy", "run", "-w"]
+CMD ["caddy", "run", "--watch"]
