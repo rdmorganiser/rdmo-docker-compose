@@ -26,5 +26,7 @@
 		}
 	}
 
-	reverse_proxy * rdc-rdmo:8080
+	reverse_proxy * rdc-rdmo:8080 {
+		header_up X-Forwarded-Host {env.url_hostname}
+	}
 }
