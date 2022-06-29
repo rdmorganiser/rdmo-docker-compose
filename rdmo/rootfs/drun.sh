@@ -18,8 +18,7 @@ else
 fi
 
 echo "Run gunicorn"
-cd "${RDMO_APP}"
-gunicorn \
+cd "${RDMO_APP}" && gunicorn \
     --bind 0.0.0.0:8080 \
     --log-level info \
     --access-logfile "/vol/log/gunicorn-access.log" \
