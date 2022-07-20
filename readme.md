@@ -30,7 +30,7 @@ During build four folders later used as volumes will be created under `vol/`. Th
 3. `rdmo-app` installation
 4. `ve` python's virtual environment
 
-![](./architecture.png)
+![](./graph/architecture.svg)
 
 ## Configuration & Usage
 1. Declare your settings in `variables.local`
