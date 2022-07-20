@@ -1,9 +1,9 @@
-version: "3.7"
+version: "3.8"
 
 services:
     caddy:
         build:
-            context: ./caddy
+            context: ./docker/caddy
             args:
                 UID: <LOCAL_UID>
         container_name: <GLOBAL_PREFIX>caddy
@@ -21,7 +21,7 @@ services:
 
     postgres:
         build:
-            context: ./postgres
+            context: ./docker/postgres
             args:
                 UID: <LOCAL_UID>
         container_name: <GLOBAL_PREFIX>postgres
@@ -33,7 +33,7 @@ services:
 
     rdmo:
         build:
-            context: ./rdmo
+            context: ./docker/rdmo
             args:
                 UID: <LOCAL_UID>
         container_name: <GLOBAL_PREFIX>rdmo

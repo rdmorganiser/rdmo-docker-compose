@@ -1,4 +1,5 @@
 .imdone/
+tmp/
 vol/
 docker-compose.yaml
 variables.local
