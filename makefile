@@ -24,7 +24,7 @@ preps: root_check preparations
 build: root_check preparations run_pull run_build
 restart: run_restart
 fromscratch: root_check preparations run_remove run_pull run_build
-remove: root_check run_remove
+remove: root_check preparations run_remove
 
 
 root_check:
