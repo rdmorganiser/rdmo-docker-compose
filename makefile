@@ -7,7 +7,6 @@ GLOBAL_PREFIX=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=GLOBAL_PREFIX=).
 FINALLY_EXPOSED_PORT=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=FINALLY_EXPOSED_PORT=)[.:0-9]+")
 RESTART_POLICY=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=RESTART_POLICY=).*")
 DOCKER_IN_GROUPS=$(shell groups | grep "docker")
-LOCAL_USER=$(shell whoami)
 LOCAL_UID=$(shell id -u)
 LOCAL_GID=$(shell id -g)
 
@@ -46,7 +45,6 @@ preparations:
 		| sed 's|<FINALLY_EXPOSED_PORT>|${FINALLY_EXPOSED_PORT}|g' \
 		| sed 's|<RESTART_POLICY>|${RESTART_POLICY}|g' \
 		| sed 's|<VARIABLES_FILE>|${VARS_ENV}|g' \
-		| sed "s|<LOCAL_USER>|${LOCAL_USER}|g" \
 		| sed 's|<LOCAL_UID>|${LOCAL_UID}|g' \
 		| sed 's|<LOCAL_GID>|${LOCAL_GID}|g' \
 		> ${DC_TEMP}
