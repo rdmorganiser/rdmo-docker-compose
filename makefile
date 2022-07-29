@@ -9,6 +9,7 @@ RESTART_POLICY=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=RESTART_POLICY=
 DOCKER_IN_GROUPS=$(shell groups | grep "docker")
 LOCAL_USER=$(shell whoami)
 LOCAL_UID=$(shell id -u)
+LOCAL_GID=$(shell id -g)
 
 
 ifeq ($(strip $(DOCKER_IN_GROUPS)),)
@@ -47,6 +48,7 @@ preparations:
 		| sed 's|<VARIABLES_FILE>|${VARS_ENV}|g' \
 		| sed "s|<LOCAL_USER>|${LOCAL_USER}|g" \
 		| sed 's|<LOCAL_UID>|${LOCAL_UID}|g' \
+		| sed 's|<LOCAL_GID>|${LOCAL_GID}|g' \
 		> ${DC_TEMP}
 
 run_pull:

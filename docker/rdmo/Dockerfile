@@ -4,6 +4,7 @@ ENV USER=rdmo
 ENV HOME="/home/rdmo"
 
 ARG UID
+ARG GID
 
 ENV PATH=${PATH}:${HOME}/sh
 
@@ -53,7 +54,8 @@ RUN apt update && apt install -y \
 COPY ./rootfs /
 RUN chmod -R 777 /tmp
 
-RUN useradd -m -u ${UID} -s /bin/bash "${USER}"
+RUN groupadd -g "${GID}" "${USER}" \
+ && useradd -m -u ${UID} -g ${GID} -s /bin/bash "${USER}"
 RUN chown -R "${USER}:${USER}" "${HOME}"
 
 USER "${USER}"

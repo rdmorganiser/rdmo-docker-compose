@@ -6,6 +6,7 @@ services:
             context: ./docker/caddy
             args:
                 UID: <LOCAL_UID>
+                GID: <LOCAL_GID>
         container_name: <GLOBAL_PREFIX>caddy
         restart: "<RESTART_POLICY>"
         ports:
@@ -24,6 +25,7 @@ services:
             context: ./docker/postgres
             args:
                 UID: <LOCAL_UID>
+                GID: <LOCAL_GID>
         container_name: <GLOBAL_PREFIX>postgres
         restart: "<RESTART_POLICY>"
         volumes:
@@ -36,6 +38,7 @@ services:
             context: ./docker/rdmo
             args:
                 UID: <LOCAL_UID>
+                GID: <LOCAL_GID>
         container_name: <GLOBAL_PREFIX>rdmo
         restart: "<RESTART_POLICY>"
         depends_on:
