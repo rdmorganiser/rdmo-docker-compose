@@ -1,14 +1,5 @@
 #!/bin/bash
 
-source ${HOME}/sh/ve.sh
-
-pip install --upgrade pip
-pip install --upgrade wheel
-pip install --upgrade setuptools
-
-# TODO: probably remove when rdmo 1.6 is out
-pip install psycopg2
-
 if [[ -n "${RDMO_INSTALL_URL}" ]]; then
     pip install "${RDMO_INSTALL_URL}"
 else

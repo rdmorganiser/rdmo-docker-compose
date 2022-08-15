@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "${HOME}/sh/ve.sh"
-
 function waitforpg() {
     pg_isready -h ${POSTGRES_HOST} -U ${POSTGRES_USER} || (
         sleep 1
@@ -23,4 +21,4 @@ cd "${RDMO_APP}" && gunicorn \
     --log-level info \
     --access-logfile "/vol/log/gunicorn-access.log" \
     --error-logfile "/vol/log/gunicorn-error.log" \
-    config.wsgi:application
+    config.wsgi:application || sleep 60s
