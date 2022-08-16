@@ -5,6 +5,7 @@ ENV HOME="/home/rdmo"
 
 ARG UID
 ARG GID
+ARG RDMO_INSTALL_URL
 
 ENV PATH=${PATH}:${HOME}/.local/bin:${HOME}/sh
 
@@ -57,4 +58,8 @@ RUN groupadd -g "${GID}" "${USER}" \
 RUN chown -R "${USER}:${USER}" "${HOME}"
 
 USER "${USER}"
+
+RUN if [ -n "${RDMO_INSTALL_URL}" ]; then \
+        pip install "${RDMO_INSTALL_URL}"; else pip install rdmo; fi
+
 CMD ["/drun.sh"]

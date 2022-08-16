@@ -38,6 +38,7 @@ services:
             args:
                 UID: <LOCAL_UID>
                 GID: <LOCAL_GID>
+                RDMO_INSTALL_URL: <RDMO_INSTALL_URL>
         container_name: <GLOBAL_PREFIX>rdmo
         restart: "<RESTART_POLICY>"
         depends_on:

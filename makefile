@@ -7,6 +7,7 @@ GLOBAL_PREFIX=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=GLOBAL_PREFIX=).
 COMPOSE_PROJECT_NAME=$(shell echo ${GLOBAL_PREFIX} | grep -Po "^[a-zA-Z0-9]+")
 FINALLY_EXPOSED_PORT=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=FINALLY_EXPOSED_PORT=)[.:0-9]+")
 RESTART_POLICY=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=RESTART_POLICY=).*")
+RDMO_INSTALL_URL=$(shell cat ${CURDIR}/${VARS_ENV} | grep -Po "(?<=^RDMO_INSTALL_URL=).*")
 DOCKER_IN_GROUPS=$(shell groups | grep "docker")
 LOCAL_UID=$(shell id -u)
 LOCAL_GID=$(shell id -g)
@@ -48,6 +49,7 @@ preparations:
 		| sed 's|<VARIABLES_FILE>|${VARS_ENV}|g' \
 		| sed 's|<LOCAL_UID>|${LOCAL_UID}|g' \
 		| sed 's|<LOCAL_GID>|${LOCAL_GID}|g' \
+		| sed 's|<RDMO_INSTALL_URL>|${RDMO_INSTALL_URL}|g' \
 		> ${DC_TEMP}
 
 run_pull:

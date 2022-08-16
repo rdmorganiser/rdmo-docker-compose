@@ -9,11 +9,7 @@ function waitforpg() {
 
 waitforpg
 
-if [ $(pip freeze | grep -Poc "^rdmo==") -eq 0 ] && [ $(pip freeze | grep -Poc "^rdmo @") -eq 0 ]; then
-    ${HOME}/sh/install-rdmo.sh
-else
-    echo "Won't do anything because RDMO is already installed."
-fi
+pip freeze | grep "gunicorn" || ${HOME}/sh/install-rdmo-app.sh
 
 echo "Run gunicorn"
 cd "${RDMO_APP}" && gunicorn \

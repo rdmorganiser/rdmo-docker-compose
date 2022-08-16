@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [[ -n "${RDMO_INSTALL_URL}" ]]; then
-    pip install "${RDMO_INSTALL_URL}"
-else
-    pip install rdmo
-fi
-
+echo "Install RDMO App"
 git clone ${RDMO_APP_REPO} ${RDMO_APP}
 cp -f /conf/template_local.py ${RDMO_APP}/config/settings/local.py
 
