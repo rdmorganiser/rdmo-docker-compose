@@ -1,4 +1,5 @@
 alias ..="cd .."
+alias edc="vim ${RDMO_APP}/config/settings/local.py"
 alias env="env | sort"
 alias p="python"
 alias pm="python ${RDMO_APP}/manage.py"
