@@ -1,4 +1,4 @@
-FROM debian:11
+FROM debian:latest
 
 ENV USER=rdmo
 ENV HOME="/home/rdmo"
