@@ -54,9 +54,6 @@ RUN groupadd -g "${GID}" "${USER}" \
  && useradd -m -u ${UID} -g ${GID} -s /bin/bash "${USER}"
 RUN chown -R "${USER}:${USER}" "${HOME}"
 
-RUN sed -i -r "s/${USER}:x:([0-9]+):([0-9]+)/${USER}:x:${UID}:${GID}/g" /etc/passwd
-RUN sed -i -r "s/${USER}:x:([0-9]+)/${USER}:x:${GID}/g" /etc/group
-
 USER "${USER}"
 
 RUN if [ -n "${RDMO_INSTALL_URL}" ]; then \
