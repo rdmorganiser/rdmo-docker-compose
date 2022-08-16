@@ -1,14 +1,5 @@
 #!/bin/bash
 
-function waitforpg() {
-    pg_isready -h ${POSTGRES_HOST} -U ${POSTGRES_USER} || (
-        sleep 1
-        waitforpg
-    )
-}
-
-waitforpg
-
 pip freeze | grep "gunicorn" || ${HOME}/sh/install-rdmo-app.sh
 
 echo "Run gunicorn"

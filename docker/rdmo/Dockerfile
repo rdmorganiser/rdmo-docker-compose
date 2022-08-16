@@ -37,11 +37,8 @@ RUN apt update && apt install -y \
 
 # postgres
 RUN apt update && apt install -y \
-        libpq-dev \
-        postgresql \
-        postgresql-client \
- && rm -rf /var/lib/apt/lists/*
-
+         libpq-dev \
+  && rm -rf /var/lib/apt/lists/*
 RUN pip3 install psycopg2
 
 # for document export
