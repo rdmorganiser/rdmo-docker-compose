@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/rdmorganiser/rdmo-docker-compose.svg?branch=master)](https://travis-ci.org/rdmorganiser/rdmo-docker-compose)
-
-# RDMO Docker Compose
+# RDMO Docker Compose ![build](https://github.com/rdmorganiser/rdmo-docker-compose/actions/workflows/build.yaml/badge.svg)
 
 <!--- mdtoc: toc begin -->
 
