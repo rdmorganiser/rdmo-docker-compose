@@ -6,6 +6,7 @@ ENV HOME="/home/caddy"
 ENV PATH=${PATH}:${HOME}/bin:${HOME}/sh
 
 ARG UID
+ARG GID
 
 RUN apk --update add \
     bash \
@@ -14,10 +15,10 @@ RUN apk --update add \
 
 COPY ./rootfs /
 
-RUN addgroup -g "${UID}" -S "${USER}" \
+RUN addgroup -g "${GID}" -S "${USER}" \
  && adduser -s "/bin/bash" -h "${HOME}" -u "${UID}" -S "${USER}"
 
-RUN chown -R ${USER}.${USER} ${HOME}
+RUN chown -R ${UID}.${GID} ${HOME}
 RUN chmod -R 777 /tmp
 
 USER ${USER}

@@ -7,7 +7,6 @@ rectangle {
     frame Volumes {
         storage "log:/vol/log" as vlog
         storage "rdmoapp:/vol/rdmo-app" as vapp
-        storage "ve:/vol/ve" as vve
         storage "postgres:/var/lib/postgresql/data" as vpg
     }
     frame Containers {
@@ -38,7 +37,6 @@ user <..> caddy : " http"
 
 rdmo -- vapp
 rdmo -->  vlog
-rdmo -- vve
 caddy -- vapp : "static file access"
 caddy --> vlog
 caddy <.l.> rdmo : "http"

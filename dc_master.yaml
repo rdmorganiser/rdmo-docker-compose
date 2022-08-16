@@ -6,6 +6,7 @@ services:
             context: ./docker/caddy
             args:
                 UID: <LOCAL_UID>
+                GID: <LOCAL_GID>
         container_name: <GLOBAL_PREFIX>caddy
         restart: "<RESTART_POLICY>"
         ports:
@@ -13,7 +14,6 @@ services:
         volumes:
             - log:/vol/log
             - rdmoapp:/vol/rdmo-app
-            - ve:/vol/ve
         env_file:
             - <VARIABLES_FILE>
         depends_on:
@@ -24,6 +24,7 @@ services:
             context: ./docker/postgres
             args:
                 UID: <LOCAL_UID>
+                GID: <LOCAL_GID>
         container_name: <GLOBAL_PREFIX>postgres
         restart: "<RESTART_POLICY>"
         volumes:
@@ -36,6 +37,8 @@ services:
             context: ./docker/rdmo
             args:
                 UID: <LOCAL_UID>
+                GID: <LOCAL_GID>
+                RDMO_INSTALL_URL: <RDMO_INSTALL_URL>
         container_name: <GLOBAL_PREFIX>rdmo
         restart: "<RESTART_POLICY>"
         depends_on:
@@ -43,7 +46,6 @@ services:
         volumes:
             - log:/vol/log
             - rdmoapp:/vol/rdmo-app
-            - ve:/vol/ve
         env_file:
             - <VARIABLES_FILE>
 
@@ -65,10 +67,4 @@ volumes:
         driver_opts:
             type: none
             device: <VOLDIR>/rdmo-app
-            o: bind
-    ve:
-        name: <GLOBAL_PREFIX>ve
-        driver_opts:
-            type: none
-            device: <VOLDIR>/ve
             o: bind

@@ -1,0 +1,55 @@
+name: build
+
+on:
+    schedule:
+        - cron: "0 7 * * 1,4"
+    push:
+        branches:
+            - master
+    workflow_dispatch:
+        inputs:
+            tags:
+                description: 'manual build test'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -
+                name: Install docker
+                run: |
+                    sudo mkdir -p /etc/apt/keyrings
+                    curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+                        | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+                    echo \
+                    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+                    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+                    sudo apt update -y && sudo apt install -y docker-ce docker-ce-cli containerd.io
+                    docker --version
+            -
+                name: Install docker-compose
+                env:
+                    URL: docker/compose/releases
+                    GREP_SCHEME: "(?<=href\\=\").*linux-x86_64\""
+                    TARGET_FOLDER: /home/.local/bin
+                run: |
+                    sudo mkdir -p ${TARGET_FOLDER}
+                    curl https://raw.githubusercontent.com/triole/ghwfe/master/sh/install_from_github.sh | bash
+                    sudo mv \
+                        $(find ${TARGET_FOLDER} -type f | grep "docker-compose") \
+                        ${TARGET_FOLDER}/docker-compose
+                    sudo chmod +x ${TARGET_FOLDER}/docker-compose
+                    ls -la ${TARGET_FOLDER}
+                    export PATH=${PATH}:${TARGET_FOLDER}
+                    docker-compose --version
+            -
+                name: Build containers
+                run: |
+                    export PATH=${PATH}:/home/.local/bin
+                    git clone https://github.com/rdmorganiser/rdmo-docker-compose.git
+                    cd rdmo-docker-compose
+                    make preparations
+                    cat docker-compose.yaml \
+                        | sed -r 's/((U|G)ID: )0/\11000/g' > dc.tmp
+                    cp -f dc.tmp docker-compose.yaml
+                    docker-compose build
