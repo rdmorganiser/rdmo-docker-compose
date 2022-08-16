@@ -38,7 +38,6 @@ preparations:
 	mkdir -p ${VOLDIR}/log
 	mkdir -p ${VOLDIR}/postgres
 	mkdir -p ${VOLDIR}/rdmo-app
-	mkdir -p ${VOLDIR}/ve
 	cat ${DC_MASTER} \
 		| sed 's|<HOME>|${HOME}|g' \
 		| sed 's|<CURDIR>|${CURDIR}|g' \

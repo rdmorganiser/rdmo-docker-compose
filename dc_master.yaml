@@ -12,8 +12,7 @@ services:
         ports:
             - "<FINALLY_EXPOSED_PORT>:8080"
         volumes:
-            - log:/vol/log
-            - rdmoapp:/vol/rdmo-app
+            - vol:/vol
         env_file:
             - <VARIABLES_FILE>
         depends_on:
@@ -44,27 +43,20 @@ services:
         depends_on:
             - postgres
         volumes:
-            - log:/vol/log
-            - rdmoapp:/vol/rdmo-app
+            - vol:/vol
         env_file:
             - <VARIABLES_FILE>
 
 volumes:
-    log:
-        name: <GLOBAL_PREFIX>log
-        driver_opts:
-            type: none
-            device: <VOLDIR>/log
-            o: bind
     postgres:
         name: <GLOBAL_PREFIX>postgres
         driver_opts:
             type: none
             device: <VOLDIR>/postgres
             o: bind
-    rdmoapp:
-        name: <GLOBAL_PREFIX>rdmoapp
+    vol:
+        name: <GLOBAL_PREFIX>vol
         driver_opts:
             type: none
-            device: <VOLDIR>/rdmo-app
+            device: <VOLDIR>
             o: bind

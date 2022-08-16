@@ -25,7 +25,9 @@ During build four folders later used as volumes will be created under `vol/`. Th
 
 1. `log` log files
 2. `postgres` database
-3. `rdmo-app` installation
+3. `rdmo-app` rdmo app installation
+
+Note that the `vol` folder is mounted as a single volume. This provides additional flexibility because any folder created inside `vol` will be available inside the `caddy` and the `rdmo` container and may be used to transfer data between the docker host and these two containers.
 
 ![](./graph/architecture.svg)
 
