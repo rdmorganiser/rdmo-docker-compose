@@ -22,10 +22,11 @@ RUN chown -R ${UID}.${GID} ${HOME}
 RUN chmod -R 777 /tmp
 
 USER ${USER}
-RUN ${HOME}/sh/install-from-github.sh \
-    "caddyserver/caddy/releases/latest" \
-    "(?<=href\=\").*_linux_amd64.tar.gz" \
-    "${HOME}/bin"
+
+RUN curl --output ${HOME}/sh/install_from_github.sh https://raw.githubusercontent.com/triole/ghwfe/master/sh/install_from_github.sh
+RUN chmod +x ${HOME}/sh/install_from_github.sh
+RUN ${HOME}/sh/install_from_github.sh \
+    "caddyserver/caddy" "_linux_amd64.tar.gz" "${HOME}/bin"
 
 WORKDIR ${HOME}/conf
 CMD ["caddy", "run", "--watch"]
