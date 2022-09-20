@@ -13,7 +13,9 @@ RUN apk --update add \
     curl \
     grep
 
-COPY ./bashrc ${HOME}/.bashrc
+RUN mkdir -p ${HOME}
+RUN curl --output ${HOME}/.bashrc \
+    https://raw.githubusercontent.com/triole/ghwfe/master/bashrc/default.sh
 COPY ./Caddyfile ${HOME}/Caddyfile
 
 RUN addgroup -g "${GID}" -S "${USER}" \
@@ -25,7 +27,8 @@ RUN chmod -R 777 /tmp
 USER ${USER}
 
 RUN mkdir ${HOME}/sh
-RUN curl --output ${HOME}/sh/install_from_github.sh https://raw.githubusercontent.com/triole/ghwfe/master/sh/install_from_github.sh
+RUN curl --output ${HOME}/sh/install_from_github.sh \
+    https://raw.githubusercontent.com/triole/ghwfe/master/sh/install_from_github.sh
 RUN chmod +x ${HOME}/sh/install_from_github.sh
 RUN ${HOME}/sh/install_from_github.sh \
     "caddyserver/caddy" "_linux_amd64.tar.gz" "${HOME}/bin"

@@ -13,7 +13,7 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
 RUN apt update && apt upgrade -y && apt install -y \
-        python3 python3-dev python3-pip locales \
+    python3 python3-dev python3-pip locales \
  && rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
@@ -25,26 +25,27 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
 
 # build dependencies
 RUN apt update && apt install -y \
-        build-essential \
-        curl \
-        git \
-        libxml2-dev \
-        libxslt-dev \
-        zlib1g-dev \
-        procps \
-        vim \
+    build-essential \
+    curl \
+    git \
+    libxml2-dev \
+    libxslt-dev \
+    micro \
+    zlib1g-dev \
+    procps \
+    vim \
  && rm -rf /var/lib/apt/lists/*
 
 # postgres
 RUN apt update && apt install -y \
-         libpq-dev \
+    libpq-dev \
   && rm -rf /var/lib/apt/lists/*
 RUN pip3 install psycopg2
 
 # for document export
 RUN apt update && apt install -y \
-        pandoc \
-        texlive-xetex \
+    pandoc \
+    texlive-xetex \
  && rm -rf /var/lib/apt/lists/*
 
 COPY ./rootfs /
@@ -52,11 +53,16 @@ RUN chmod -R 777 /tmp
 
 RUN groupadd -g "${GID}" "${USER}" \
  && useradd -m -u ${UID} -g ${GID} -s /bin/bash "${USER}"
+RUN curl --output ${HOME}/.bashrc \
+    https://raw.githubusercontent.com/triole/ghwfe/master/bashrc/default.sh
+
+RUN sed -r -i 's|cd "?\$\{HOME\}"?||g' ${HOME}/.bashrc
+RUN cat ${HOME}/tpl/add_to_bashrc >> ~/.bashrc
 RUN chown -R "${USER}:${USER}" "${HOME}"
 
 USER "${USER}"
 
 RUN if [ -n "${RDMO_INSTALL_URL}" ]; then \
-        pip install "${RDMO_INSTALL_URL}"; else pip install rdmo; fi
+    pip install "${RDMO_INSTALL_URL}"; else pip install rdmo; fi
 
 CMD ["/drun.sh"]
