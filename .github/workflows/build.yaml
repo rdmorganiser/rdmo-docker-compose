@@ -29,8 +29,8 @@ jobs:
             -
                 name: Install docker-compose
                 env:
-                    URL: docker/compose/releases
-                    GREP_SCHEME: "(?<=href\\=\").*linux-x86_64\""
+                    URL: docker/compose
+                    GREP_SCHEME: "linux-x86_64"
                     TARGET_FOLDER: /home/.local/bin
                 run: |
                     sudo mkdir -p ${TARGET_FOLDER}
