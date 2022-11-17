@@ -11,7 +11,8 @@ ARG GID
 RUN apk --update add \
     bash \
     curl \
-    grep
+    grep \
+    vim
 
 RUN mkdir -p ${HOME}
 RUN curl --output ${HOME}/.bashrc \

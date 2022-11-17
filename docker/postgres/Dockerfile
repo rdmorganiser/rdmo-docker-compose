@@ -6,7 +6,7 @@ ARG UID
 ARG GID
 
 RUN apt update && apt upgrade -y && apt install -y \
-        postgresql-client \
+        postgresql-client vim \
     && rm -rf /var/lib/apt/lists/*
 
 RUN sed -i -r "s/postgres:x:([0-9]+):([0-9]+)/postgres:x:${UID}:${GID}/g" /etc/passwd

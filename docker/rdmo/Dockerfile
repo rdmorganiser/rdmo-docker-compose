@@ -56,7 +56,6 @@ RUN groupadd -g "${GID}" "${USER}" \
 RUN curl --output ${HOME}/.bashrc \
     https://raw.githubusercontent.com/triole/ghwfe/master/bashrc/default.sh
 
-RUN sed -r -i 's|cd "?\$\{HOME\}"?||g' ${HOME}/.bashrc
 RUN cat ${HOME}/tpl/add_to_bashrc >> ~/.bashrc
 RUN chown -R "${USER}:${USER}" "${HOME}"
 
