@@ -1,0 +1,46 @@
+explanation: |md
+  # RDMO Docker Compose Architecture
+|
+
+user: User {
+  shape: person
+}
+
+containers: "" {
+  exp: |md
+    Containers
+  |
+  caddy: Caddy {
+    exp: |md
+      - listen on 8484:8080
+      - either serve static files
+      - or pass requests to RDMO
+    |
+  }
+  rdmo: RDMO {
+    exp: |md
+      - Python code run by a WSGI capable HTTP Server
+      - in this case Gunicorn
+    |
+  }
+  postgres: postgreSQL {
+    shape: cylinder
+  }
+}
+
+volumes: "" {
+  exp: |md
+    Volumes
+  |
+  app: rdmoapp:/vol/rdmo-app
+  postgres: postgres:/var/lib/postgresql/data
+  log: log:/vol/log
+}
+
+user <-> containers.caddy: "http"
+containers.caddy <-> containers.rdmo: "http"
+containers.rdmo <-> containers.postgres: "psql"
+containers.rdmo -- volumes.app: "Python source code access"
+containers.caddy -- volumes.app: "static file access"
+containers.caddy -> volumes.log: "write logs"
+containers.postgres -- volumes.postgres: "store data"
