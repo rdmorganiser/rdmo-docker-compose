@@ -19,7 +19,8 @@ RUN curl --output ${HOME}/.bashrc \
     https://raw.githubusercontent.com/triole/ghwfe/master/bashrc/default.sh
 COPY ./Caddyfile ${HOME}/Caddyfile
 
-RUN addgroup -g "${GID}" -S "${USER}" \
+RUN if ! grep -q ":${GID}:" /etc/group; then
+    addgroup -g "${GID}" -S "${USER}"; fi \
  && adduser -s "/bin/bash" -h "${HOME}" -u "${UID}" -S "${USER}"
 
 RUN chown -R ${UID}.${GID} ${HOME}
