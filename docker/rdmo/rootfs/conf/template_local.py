@@ -1,5 +1,4 @@
 import os
-from . import BASE_DIR
 
 DEFAULT_URI_PREFIX = os.environ['DEFAULT_URI_PREFIX']
 
@@ -93,7 +92,7 @@ Allauth configuration, see also:
 http://rdmo.readthedocs.io/en/latest/configuration/authentication/allauth.html
 '''
 
-from rdmo.core.settings import INSTALLED_APPS, AUTHENTICATION_BACKENDS
+from rdmo.core.settings import AUTHENTICATION_BACKENDS, INSTALLED_APPS
 
 ACCOUNT = True
 ACCOUNT_SIGNUP = True
@@ -258,7 +257,7 @@ LOGGING = {
         },
         'console': {
             'level': 'DEBUG',
-            'filters': ['require_debug_true'],
+            #'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
             'formatter': 'console'
         }
