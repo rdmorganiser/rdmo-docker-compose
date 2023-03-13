@@ -13,5 +13,5 @@ export PGDATABASE="${POSTGRES_DB}"
 export PGUSER="${POSTGRES_USER}"
 export PGPASSWORD="${POSTGRES_PASSWORD}"
 
-createdb rdmo || exit 1
+createdb "${PGDATABASE}" || exit 1
 psql <"${fil}"
