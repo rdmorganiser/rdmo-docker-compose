@@ -26,7 +26,7 @@
 		}
 	}
 
-	reverse_proxy * {env.global_prefix}rdmo:8080 {
-		header_up X-Forwarded-Host {env.url_hostname}
+	reverse_proxy * {$GLOBAL_PREFIX}rdmo:8080 {
+		header_up X-Forwarded-Host {$URL_HOSTNAME}
 	}
 }
