@@ -16,6 +16,8 @@ RUN apt update && apt upgrade -y && apt install -y \
     python3 python3-dev python3-pip locales \
  && rm -rf /var/lib/apt/lists/*
 
+RUN rm "$(find /usr/lib/python3.??/ -regex ".*EXTERNALLY-MANAGED.*")"
+
 RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN pip3 install --upgrade pip wheel setuptools
 
