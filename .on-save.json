@@ -1,8 +1,0 @@
-[{
-    "srcDir": ".",
-    "destDir": "/tmp/.on-save",
-    "files": "**",
-    "command": "coda '${srcFile}'",
-    "showOutput": false,
-    "showError": false
-}]
