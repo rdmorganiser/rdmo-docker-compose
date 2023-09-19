@@ -1,13 +1,15 @@
 # RDMO Docker Compose ![build](https://github.com/rdmorganiser/rdmo-docker-compose/actions/workflows/build.yaml/badge.svg)
 
-<!--- mdtoc: toc begin -->
+<!-- toc -->
 
-1. [Synopsis](#synopsis)
-2. [Structure](#structure)
-   1. [Dockers](#dockers)
-   2. [Volumes](#volumes)
-3. [Configuration & Usage](#configuration---usage)
-4. [Multiple RDMO Instances on a Single Docker Host](#multiple-rdmo-instances-on-a-single-docker-host)<!--- mdtoc: toc end -->
+- [Synopsis](#synopsis)
+- [Structure](#structure)
+  - [Dockers](#dockers)
+  - [Volumes](#volumes)
+- [Configuration &amp; Usage](#configuration--usage)
+- [Multiple RDMO Instances on a Single Docker Host](#multiple-rdmo-instances-on-a-single-docker-host)
+
+<!-- /toc -->
 
 ## Synopsis
 
@@ -32,6 +34,7 @@ Note that the `vol` folder is mounted as a single volume. This provides addition
 ![](./graph/architecture.svg)
 
 ## Configuration & Usage
+
 1. Declare your settings in `variables.local`
 
    Default settings are stored in the `variables.env`. You may want to change things to adjust RDMO to your local needs. As `variables.env` is part of the repo and would get overwritten if you pulled again the `makefile` contains a logic that lets you use a file called `variables.local` instead. If such a file exists the settings will be loaded from there. Simply copy `variables.env` to `variables.local` and feel free to change whatever you want.
@@ -39,9 +42,7 @@ Note that the `vol` folder is mounted as a single volume. This provides addition
    Please note that you might need to change the `ALLOWED_HOSTS` entry depending on your server setup. The URL or IP under which RDMO is served needs to be allowed by putting it into the list. Usually the allowed hosts are declared in the `local.py`. In this docker compose setup we decided to move it into the environment variables and so the `variables.env` to raise awareness that the setting might need to be adjusted.
 
    It is possible to change the restart policy of all three Docker services via changing the `RESTART_POLICY` variable.
-
 2. Build by running `make`
-
 3. Maybe create an RDMO user
 
    Note that we decided not to automatically create any user account for the freshly created RDMO instance. You may want to do this manually.
@@ -55,7 +56,6 @@ Note that the `vol` folder is mounted as a single volume. This provides addition
    # or
    python manage.py create_admin_user
    ```
-
 4. Import data from rdmo-catalog
 
    A fresh RDMO installation does not contain any data. You may want to import `conditions`, `domains`, `options`, `questions`, `tasks` and `views`. In the `RDMO container` there is a shell script that automatically clones the [rdmo-catalog repo](https://github.com/rdmorganiser/rdmo-catalog) and imports everything in it. If you consider it being helpful you could do `import-github-catalogues.sh`.
