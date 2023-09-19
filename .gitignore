@@ -1,4 +1,5 @@
 .imdone/
+.pytest_cache/
 tmp/
 vol/
 docker-compose.yaml
