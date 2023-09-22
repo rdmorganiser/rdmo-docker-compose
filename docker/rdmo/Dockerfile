@@ -19,7 +19,7 @@ RUN apt update && apt upgrade -y && apt install -y \
 RUN rm "$(find /usr/lib/python3.??/ -regex ".*EXTERNALLY-MANAGED.*")"
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
-RUN pip3 install --upgrade pip wheel setuptools
+RUN python -m pip install --upgrade pip wheel setuptools
 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
@@ -42,7 +42,6 @@ RUN apt update && apt install -y \
 RUN apt update && apt install -y \
     libpq-dev \
   && rm -rf /var/lib/apt/lists/*
-RUN pip3 install psycopg2
 
 # for document export
 RUN apt update && apt install -y \
@@ -64,6 +63,6 @@ RUN chown -R "${USER}:${USER}" "${HOME}"
 USER "${USER}"
 
 RUN if [ -n "${RDMO_INSTALL_URL}" ]; then \
-    pip install "${RDMO_INSTALL_URL}"; else pip install rdmo; fi
+    python -m pip install "${RDMO_INSTALL_URL}"; else python -m pip install rdmo[postgres]; fi
 
 CMD ["/drun.sh"]
