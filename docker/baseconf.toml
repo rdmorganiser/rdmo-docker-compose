@@ -45,3 +45,5 @@ logging_dir = "/vol/log"
 # is required to make django set the correct url when sending an email
 # caddy sets the x-forwarded-host header using this value
 url_hostname = "rdmo.dc"
+
+delay_after_gunicorn_failure = "60s"

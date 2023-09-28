@@ -8,4 +8,4 @@ cd "${RDMO_APP}" && gunicorn \
   --log-level info \
   --access-logfile "/vol/log/gunicorn-access.log" \
   --error-logfile "/vol/log/gunicorn-error.log" \
-  config.wsgi:application || sleep 99d
+  config.wsgi:application || sleep ${DELAY_AFTER_GUNICORN_FAILURE}
