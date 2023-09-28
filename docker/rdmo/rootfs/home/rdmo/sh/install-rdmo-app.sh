@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ ! -d "${RDMO_APP_REPO}" ]]; then
+if [[ ! -d "${RDMO_APP}" ]]; then
   echo "Install RDMO App"
   git clone "${RDMO_APP_REPO}" "${RDMO_APP}"
 
@@ -9,9 +9,11 @@ if [[ ! -d "${RDMO_APP_REPO}" ]]; then
     cp -f /conf/template_local.py "${targ}"
   fi
 
-  cd "${RDMO_APP}" || exit 1
+fi
+
+cd "${RDMO_APP}" && {
   python manage.py migrate
   python manage.py download_vendor_files
   python manage.py collectstatic --no-input
   python manage.py setup_groups
-fi
+}

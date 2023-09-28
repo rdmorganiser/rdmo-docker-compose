@@ -1,6 +1,6 @@
 # these are to modify the docker-compose.yaml
 global_prefix = "rdc-"
-finally_exposed_port = "8484"
+finally_exposed_port = 8484
 django_secret_key = "secret_key"
 
 # Docker restart policy (no, on-failure, always, unless-stopped)
@@ -20,7 +20,7 @@ postgres_user = "rdmo"
 postgres_password = "rdmopgpass19"
 postgres_db = "rdmo"
 postgres_host = "postgres"
-postgres_port = "5432"
+postgres_port = 5432
 
 # to install rdmo from github use the entry below
 # if it is not set, rdmo's latest release will be installed from pip

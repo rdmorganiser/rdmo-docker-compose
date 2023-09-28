@@ -15,12 +15,20 @@ export LOCAL_GID="$(id -g)"
 
 get_from_conf() {
   if [[ -f "${conf}" ]]; then
-    grep -E "^${1}( |=)" "${conf}" | grep -Po '(?<=").*(?=")'
+    grep -Ei "^${1}( |=)" "${conf}" | grep -Po '(?<=").*(?=")'
   fi
 }
 
 append() {
   echo "${1}" >>"${envfile}"
+}
+
+getkey() {
+  echo "${1}" | grep -Po '^[0-9A-Za-z_\-]+'
+}
+
+getval() {
+  echo "${1}" | grep -Po '(?<=\=)\s?.*' | grep -Po '[^=]+$' | xargs
 }
 
 truncate -s 0 "${envfile}"
@@ -31,19 +39,21 @@ if [[ ! -f "${baseconf}" || "${ext}" != "toml" ]]; then
   exit 1
 fi
 
-mapfile -t arr < <(grep -E '^[0-9A-Za-z_\-]+\s*=\s*".*"' "${baseconf}")
+mapfile -t arr < <(grep -E '^[0-9A-Za-z_\-]+\s*=\s*.*' "${baseconf}")
 for el in "${arr[@]}"; do
-  key="$(echo "${el}" | grep -Po '^[0-9A-Za-z_\-]+' | sed -e 's/\(.*\)/\U\1/')"
-  val="$(echo "${el}" | grep -Po '(?<=\=)\s?".*"' | grep -Po '(?<=").+(?=")')"
+  key="$(getkey "${el}")"
+  upkey="$(echo "${key}" | sed -e 's/\(.*\)/\U\1/')"
+  val="$(getval "${el}")"
   confval="$(get_from_conf "${key}")"
   if [[ -n "${confval}" ]]; then
     val="${confval}"
   fi
-  append "${key}=${val}"
-  if [[ "${key}" == "GLOBAL_PREFIX" ]]; then
+
+  append "${upkey}=${val}"
+  if [[ "${upkey}" == "GLOBAL_PREFIX" ]]; then
     append "COMPOSE_PROJECT_NAME=${val}"
   fi
-  export "${key}=${val}"
+  export "$(echo "${upkey}")=${val}"
 done
 
 cat ${dc_master} | envsubst >${dc_temp}
