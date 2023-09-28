@@ -1,8 +1,9 @@
 # RDMO Docker Compose ![build](https://github.com/rdmorganiser/rdmo-docker-compose/actions/workflows/build.yaml/badge.svg)
 
+! *Please note that with RDMO 2.0.0 the configuration mechanism of this docker setup has changed. From now on a `conf.toml` in the root folder of the repository is used.* Please see [Configuration &amp; Usage](#configuration--usage) for more information.
+
 <!-- toc -->
 
-- [Synopsis](#synopsis)
 - [Structure](#structure)
   - [Dockers](#dockers)
   - [Volumes](#volumes)
@@ -10,8 +11,6 @@
 - [Multiple RDMO Instances on a Single Docker Host](#multiple-rdmo-instances-on-a-single-docker-host)
 
 <!-- /toc -->
-
-## Synopsis
 
 This repository contains RDMO docker images that are held together by [docker compose](https://github.com/docker/compose/releases) which obviously is required to make use of it. If not configured differently the built RDMO instance should be available at `localhost:8484`. Please see below how setting can be changed.
 
@@ -35,11 +34,11 @@ Note that the `vol` folder is mounted as a single volume. This provides addition
 
 ## Configuration & Usage
 
-1. Declare your settings in `variables.local`
+1. Declare your settings in `conf.toml`
 
-   Default settings are stored in the `variables.env`. You may want to change things to adjust RDMO to your local needs. As `variables.env` is part of the repo and would get overwritten if you pulled again the `makefile` contains a logic that lets you use a file called `variables.local` instead. If such a file exists the settings will be loaded from there. Simply copy `variables.env` to `variables.local` and feel free to change whatever you want.
+   The basic settings are stored in `docker/baseconf.toml`. These settings are loaded and passed to the container but can be overwritten in your `conf.toml`. You can either make a copy of the basic settings and change what suits your needs or just manually pick the settings that you need to adjust and declare them inside your `conf.toml`.
 
-   Please note that you might need to change the `ALLOWED_HOSTS` entry depending on your server setup. The URL or IP under which RDMO is served needs to be allowed by putting it into the list. Usually the allowed hosts are declared in the `local.py`. In this docker compose setup we decided to move it into the environment variables and so the `variables.env` to raise awareness that the setting might need to be adjusted.
+   Please note that you might need to change the `ALLOWED_HOSTS` entry depending on your server setup. The URL or IP under which RDMO is served needs to be allowed by putting it into the list. Usually the allowed hosts are declared in the `local.py`. In this docker compose setup we decided to move it to the environment variables which are generated from the toml settings here and might need to be adjusted.
 
    It is possible to change the restart policy of all three Docker services via changing the `RESTART_POLICY` variable.
 2. Build by running `make`
