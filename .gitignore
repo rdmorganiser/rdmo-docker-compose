@@ -2,5 +2,6 @@
 .pytest_cache/
 tmp/
 vol/
+.env
 docker-compose.yaml
-variables.local
+conf.toml

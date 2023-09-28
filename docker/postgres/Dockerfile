@@ -8,8 +8,8 @@ ARG GID
 ENV PATH=${PATH}:${HOME}/sh
 
 RUN apt update && apt upgrade -y && apt install -y \
-        postgresql-client vim \
-    && rm -rf /var/lib/apt/lists/*
+  postgresql-client vim \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p "${HOME}/sh"
 COPY ./sh/* ${HOME}/sh/

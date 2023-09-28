@@ -1,26 +1,26 @@
 # these are to modify the docker-compose.yaml
-GLOBAL_PREFIX=rdc-
-FINALLY_EXPOSED_PORT=8484
-DJANGO_SECRET_KEY=secret_key
+global_prefix = "rdc-"
+finally_exposed_port = "8484"
+django_secret_key = "secret_key"
 
 # Docker restart policy (no, on-failure, always, unless-stopped)
 # see https://docs.docker.com/compose/compose-file/#restart
-RESTART_POLICY=always
+restart_policy = "always"
 
 # NOTE: BASE_URL does not work, will be fixed later
 # by default rdmo is available under the root url
 # if you want to run under a subpath set BASE_URL
 # i.e. for 'http://yourrdmo.com/rdmo' set the key to '/rdmo'
-# BASE_URL=/rdmo
+# base_url=/rdmo
 
 # the list of URLs under which this application is available
-ALLOWED_HOSTS="localhost, ip6-localhost, 127.0.0.1, [::1], rdmo, rdc-rdmo"
+allowed_hosts = "localhost, ip6-localhost, 127.0.0.1, [::1], rdmo, rdc-rdmo"
 
-POSTGRES_USER=rdmo
-POSTGRES_PASSWORD=rdmoPGpass19
-POSTGRES_DB=rdmo
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
+postgres_user = "rdmo"
+postgres_password = "rdmopgpass19"
+postgres_db = "rdmo"
+postgres_host = "postgres"
+postgres_port = "5432"
 
 # to install rdmo from github use the entry below
 # if it is not set, rdmo's latest release will be installed from pip
@@ -31,17 +31,17 @@ POSTGRES_PORT=5432
 # in case of trying to update, it might be easier to do manually inside the container
 # RDMO_INSTALL_URL=git+https://github.com/rdmorganiser/rdmo@1.8.2
 
-RDMO_APP=/vol/rdmo-app
-RDMO_APP_REPO=https://github.com/rdmorganiser/rdmo-app
-RDMO_CATALOG=/tmp/rdmo-catalog
-RDMO_CATALOG_REPO=https://github.com/rdmorganiser/rdmo-catalog
+rdmo_app = "/vol/rdmo-app"
+rdmo_app_repo = "https://github.com/rdmorganiser/rdmo-app"
+rdmo_catalog = "/tmp/rdmo-catalog"
+rdmo_catalog_repo = "https://github.com/rdmorganiser/rdmo-catalog"
 
-DEFAULT_URI_PREFIX=https://rdmo.dc/instance
+default_uri_prefix = "https://rdmo.dc/instance"
 
-VOL=/vol
-LOGGING_DIR=/vol/log
+vol = "/vol"
+logging_dir = "/vol/log"
 
 # if running behind another reverse proxy, the hostname
 # is required to make django set the correct url when sending an email
 # caddy sets the x-forwarded-host header using this value
-URL_HOSTNAME=rdmo.dc
+url_hostname = "rdmo.dc"

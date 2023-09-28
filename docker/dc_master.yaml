@@ -1,0 +1,63 @@
+---
+version: "3.8"
+
+services:
+  caddy:
+    build:
+      context: caddy
+      args:
+        UID: ${LOCAL_UID}
+        GID: ${LOCAL_GID}
+    container_name: ${GLOBAL_PREFIX}caddy
+    restart: "${RESTART_POLICY}"
+    ports:
+      - "${FINALLY_EXPOSED_PORT}:8080"
+    volumes:
+      - vol:/vol
+    env_file:
+      - .env
+    depends_on:
+      - rdmo
+
+  postgres:
+    build:
+      context: postgres
+      args:
+        UID: ${LOCAL_UID}
+        GID: ${LOCAL_GID}
+    container_name: ${GLOBAL_PREFIX}postgres
+    restart: "${RESTART_POLICY}"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+  rdmo:
+    build:
+      context: rdmo
+      args:
+        UID: ${LOCAL_UID}
+        GID: ${LOCAL_GID}
+        RDMO_INSTALL_URL: ${RDMO_INSTALL_URL}
+    container_name: ${GLOBAL_PREFIX}rdmo
+    restart: "${RESTART_POLICY}"
+    depends_on:
+      - postgres
+    volumes:
+      - vol:/vol
+    env_file:
+      - .env
+
+volumes:
+  postgres:
+    name: ${GLOBAL_PREFIX}postgres
+    driver_opts:
+      type: none
+      device: ${VOLDIR}/postgres
+      o: bind
+  vol:
+    name: ${GLOBAL_PREFIX}vol
+    driver_opts:
+      type: none
+      device: ${VOLDIR}
+      o: bind
