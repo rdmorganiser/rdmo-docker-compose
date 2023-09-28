@@ -8,7 +8,7 @@ services:
       args:
         UID: ${LOCAL_UID}
         GID: ${LOCAL_GID}
-    container_name: ${GLOBAL_PREFIX}caddy
+    container_name: ${GLOBAL_PREFIX}-caddy
     restart: "${RESTART_POLICY}"
     ports:
       - "${FINALLY_EXPOSED_PORT}:8080"
@@ -25,7 +25,7 @@ services:
       args:
         UID: ${LOCAL_UID}
         GID: ${LOCAL_GID}
-    container_name: ${GLOBAL_PREFIX}postgres
+    container_name: ${GLOBAL_PREFIX}-postgres
     restart: "${RESTART_POLICY}"
     volumes:
       - postgres:/var/lib/postgresql/data
@@ -39,7 +39,7 @@ services:
         UID: ${LOCAL_UID}
         GID: ${LOCAL_GID}
         RDMO_INSTALL_URL: ${RDMO_INSTALL_URL}
-    container_name: ${GLOBAL_PREFIX}rdmo
+    container_name: ${GLOBAL_PREFIX}-rdmo
     restart: "${RESTART_POLICY}"
     depends_on:
       - postgres

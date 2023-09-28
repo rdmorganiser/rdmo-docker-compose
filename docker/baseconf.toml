@@ -1,5 +1,5 @@
 # these are to modify the docker-compose.yaml
-global_prefix = "rdc-"
+global_prefix = "rdc"
 finally_exposed_port = 8484
 django_secret_key = "secret_key"
 
