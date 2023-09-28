@@ -62,8 +62,8 @@ mkdir -p ${VOLDIR}/log
 mkdir -p ${VOLDIR}/postgres
 mkdir -p ${VOLDIR}/rdmo-app
 
-docker_compose_command="docker-compose -p ${GLOBAL_PREFIX}"
+docker_compose_command="docker compose -p ${GLOBAL_PREFIX}"
 if ! groups | grep docker >/dev/null 2>&1; then
-  docker_compose_command="sudo docker-compose -p ${GLOBAL_PREFIX}"
+  docker_compose_command="sudo docker compose -p ${GLOBAL_PREFIX}"
 fi
 echo "${docker_compose_command} -f \"${dc_temp}\""
