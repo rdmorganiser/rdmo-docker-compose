@@ -1,18 +1,11 @@
 FROM alpine:latest
 
+ARG UID GID
 ENV USER="caddy"
 ENV HOME="/home/caddy"
+ENV PATH="${PATH}:${HOME}/bin:${HOME}/sh"
 
-ENV PATH=${PATH}:${HOME}/bin:${HOME}/sh
-
-ARG UID
-ARG GID
-
-RUN apk --update add \
-  bash \
-  curl \
-  grep \
-  vim
+RUN apk --update add bash curl grep vim
 
 RUN mkdir -p ${HOME}
 RUN curl --output ${HOME}/.bashrc \
@@ -20,8 +13,8 @@ RUN curl --output ${HOME}/.bashrc \
 COPY ./Caddyfile ${HOME}/Caddyfile
 
 RUN if ! grep -q ":${GID}:" /etc/group; then \
-  addgroup -g "${GID}" -S "${USER}"; fi \
- && adduser -s "/bin/bash" -h "${HOME}" -u "${UID}" -S "${USER}"
+  addgroup -g "${GID}" -S "${USER}"; fi
+RUN adduser -s "/bin/bash" -h "${HOME}" -u "${UID}" -S "${USER}"
 
 RUN chown -R ${UID}.${GID} ${HOME}
 RUN chmod -R 777 /tmp
