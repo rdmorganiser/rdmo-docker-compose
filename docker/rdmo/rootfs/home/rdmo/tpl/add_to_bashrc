@@ -4,5 +4,6 @@ alias pm="python ${RDMO_APP}/manage.py"
 alias pms="python ${RDMO_APP}/manage.py collectstatic"
 alias pmsn="python ${RDMO_APP}/manage.py collectstatic --no-input"
 alias pmu="python ${RDMO_APP}/manage.py upgrade"
+alias upgrade="pip install --upgrade rdmo && python manage.py upgrade"
 
 cd /vol
