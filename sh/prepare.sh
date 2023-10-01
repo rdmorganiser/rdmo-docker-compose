@@ -46,10 +46,6 @@ for el in "${arr[@]}"; do
   upkey="$(echo "${key}" | sed -e 's/\(.*\)/\U\1/')"
   val="$(getval "${el}")"
   confval="$(get_from_conf "${key}")"
-
-  # echo $val
-  echo $confval
-
   if [[ -n "${confval}" ]]; then
     val="${confval}"
   fi
