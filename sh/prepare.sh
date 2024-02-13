@@ -57,7 +57,9 @@ for el in "${arr[@]}"; do
   export "$(echo "${upkey}")=${val}"
 done
 
-cat ${dc_master} | envsubst >${dc_temp}
+cat "${dc_master}" | envsubst >"${dc_temp}"
+cat "${basedir}/docker/postgres/Dockerfile.tpl" | envsubst '${POSTGRES_VERSION}' > \
+  "${basedir}/docker/postgres/Dockerfile"
 
 mkdir -p ${VOLDIR}/log
 mkdir -p ${VOLDIR}/postgres

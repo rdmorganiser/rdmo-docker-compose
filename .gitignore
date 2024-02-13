@@ -5,3 +5,4 @@ vol/
 .env
 docker-compose.yaml
 conf.toml
+docker/postgres/Dockerfile

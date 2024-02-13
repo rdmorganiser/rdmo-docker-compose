@@ -1,4 +1,4 @@
-FROM postgres:latest
+FROM postgres:${POSTGRES_VERSION}
 
 ARG UID GID
 ENV PATH="${PATH}:/opt:${HOME}/sh"

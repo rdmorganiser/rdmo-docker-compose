@@ -16,6 +16,7 @@ restart_policy = "always"
 # the list of URLs under which this application is available
 allowed_hosts = "localhost, ip6-localhost, 127.0.0.1, [::1], rdmo, rdc-rdmo"
 
+postgres_version = "latest"
 postgres_user = "rdmo"
 postgres_password = "rdmopgpass19"
 postgres_db = "rdmo"
