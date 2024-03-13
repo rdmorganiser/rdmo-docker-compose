@@ -22,6 +22,8 @@ postgres_password = "rdmopgpass19"
 postgres_db = "rdmo"
 postgres_host = "postgres"
 postgres_port = 5432
+# set a port number below to expose postgres at a certain port
+postgres_exposed_port = ""
 
 # to install rdmo from github use the entry below
 # if it is not set, rdmo's latest release will be installed from pip

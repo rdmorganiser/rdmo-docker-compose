@@ -57,6 +57,11 @@ for el in "${arr[@]}"; do
   export "$(echo "${upkey}")=${val}"
 done
 
+if [[ -n "${POSTGRES_EXPOSED_PORT}" ]]; then
+  export POSTGRES_EXPOSED_PORT_PREFIX="ports:"
+  export POSTGRES_EXPOSED_PORT="  - \"${POSTGRES_EXPOSED_PORT}:5432\""
+fi
+
 cat "${dc_master}" | envsubst >"${dc_temp}"
 cat "${basedir}/docker/postgres/Dockerfile.tpl" | envsubst '${POSTGRES_VERSION}' > \
   "${basedir}/docker/postgres/Dockerfile"

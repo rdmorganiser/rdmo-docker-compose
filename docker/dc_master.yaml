@@ -27,6 +27,8 @@ services:
         GID: ${LOCAL_GID}
     container_name: ${GLOBAL_PREFIX}-postgres
     restart: "${RESTART_POLICY}"
+    ${POSTGRES_EXPOSED_PORT_PREFIX}
+    ${POSTGRES_EXPOSED_PORT}
     volumes:
       - postgres:/var/lib/postgresql/data
     env_file:
