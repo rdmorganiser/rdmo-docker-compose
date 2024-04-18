@@ -1,6 +1,6 @@
 #!/bin/bash
 scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-basedir=$(echo "${scriptdir}" | grep -Po ".*(?=\/)")
+basedir=$(echo "${scriptdir%/*}")
 export VOLDIR="${basedir}/vol"
 
 dc_master="${basedir}/docker/dc_master.yaml"
@@ -16,7 +16,7 @@ export LOCAL_GID="$(id -g)"
 get_from_conf() {
   if [[ -f "${conf}" ]]; then
     grep -Ei "^${1}( |=)" "${conf}" |
-      grep -Po '(?<=\=)\s?.*' | grep -Po '[^=]+$' | xargs
+      cut -d "=" -f2 | grep -Eo '[^=]+$' | xargs
   fi
 }
 
@@ -25,16 +25,16 @@ append() {
 }
 
 getkey() {
-  echo "${1}" | grep -Po '^[0-9A-Za-z_\-]+'
+  echo "${1}" | grep -Eo '^[0-9A-Za-z_\-]+'
 }
 
 getval() {
-  echo "${1}" | grep -Po '(?<=\=)\s?.*' | grep -Po '[^=]+$' | xargs
+  echo "${1}" | cut -d "=" -f2 | grep -Eo '[^=]+$' | xargs
 }
 
 truncate -s 0 "${envfile}"
 
-ext="$(echo "${baseconf}" | grep -Po "[^.]+$")"
+ext="$(echo "${baseconf}" | grep -Eo "[^.]+$")"
 if [[ ! -f "${baseconf}" || "${ext}" != "toml" ]]; then
   echo "target does not seem to be a toml file: ${baseconf}"
   exit 1
@@ -46,6 +46,7 @@ for el in "${arr[@]}"; do
   upkey="$(echo "${key}" | sed -e 's/\(.*\)/\U\1/')"
   val="$(getval "${el}")"
   confval="$(get_from_conf "${key}")"
+
   if [[ -n "${confval}" ]]; then
     val="${confval}"
   fi
