@@ -8,14 +8,21 @@ services:
         GID: ${LOCAL_GID}
     container_name: ${GLOBAL_PREFIX}-caddy
     restart: "${RESTART_POLICY}"
+    depends_on:
+      rdmo:
+        condition: service_healthy
     ports:
       - "${FINALLY_EXPOSED_PORT}:8080"
     volumes:
       - vol:/vol
     env_file:
       - .env
-    depends_on:
-      - rdmo
+    healthcheck:
+      test: curl --fail http://localhost:8080 || exit 1
+      interval: 30s
+      timeout: 20s
+      retries: 3
+      start_period: 60s
 
   postgres:
     build:
