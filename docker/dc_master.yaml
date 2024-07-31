@@ -34,9 +34,9 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 30s
-      timeout: 60s
+      timeout: 20s
       retries: 3
-      start_period: 70s
+      start_period: 60s
 
   rdmo:
     build:
@@ -54,7 +54,12 @@ services:
       - vol:/vol
     env_file:
       - .env
-
+    healthcheck:
+      test: curl --fail http://localhost:8080 || exit 1
+      interval: 30s
+      timeout: 20s
+      retries: 3
+      start_period: 60s
 
 volumes:
   postgres:
