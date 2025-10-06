@@ -8,3 +8,4 @@ conf.toml
 docker/postgres/Dockerfile
 
 *.toml.zip
+/p2r.yaml
