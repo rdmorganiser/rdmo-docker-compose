@@ -16,7 +16,7 @@ RUN if ! grep -q ":${GID}:" /etc/group; then \
   addgroup -g "${GID}" -S "${USER}"; fi
 RUN adduser -s "/bin/bash" -h "${HOME}" -u "${UID}" -S "${USER}"
 
-RUN chown -R ${UID}.${GID} ${HOME}
+RUN chown -R ${UID}:${GID} ${HOME}
 RUN chmod -R 777 /tmp
 
 USER ${USER}
