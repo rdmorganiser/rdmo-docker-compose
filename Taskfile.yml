@@ -1,0 +1,79 @@
+---
+version: '3'
+
+env:
+  CURDIR:
+    sh: pwd
+  USER_ID:
+    sh: |
+      uid=$(id -u)
+      if [[ "${uid}" == "0" ]]; then echo 1000; else echo ${uid}; fi
+  GROUP_ID:
+    sh: |
+      gid=$(id -g)
+      if [[ "${gid}" == "0" ]]; then echo 1000; else echo ${gid}; fi
+  COMPOSE_PROJECT_NAME:
+    sh: stoml conf.toml "global_prefix"
+
+tasks:
+  default:
+    desc: default corresponds to build and run
+    cmds:
+      - task: build
+      - task: run
+
+  prep:
+    cmds:
+      - cmd: |
+          if [[ "$(whoami)" == "root" ]]; then
+            chown -R ${USER_ID}:${GROUP_ID} vol
+          fi
+      - cmd: sh/prepare.sh
+
+  rebuild:
+    desc: stop and remove running docker, run new one
+    cmds:
+      - task: rm
+      - task: build
+      - task: run
+
+  run:
+    desc: set the environment variables and run the containers
+    dir: docker
+    cmds:
+      - cmd: docker-compose up -d
+
+  build:
+    desc: just build the containers, do not run them
+    dir: docker
+    cmds:
+      - task: prep
+      - cmd: docker-compose build --no-cache
+
+  rm:
+    desc: remove the containers
+    dir: docker
+    cmds:
+      - cmd: docker-compose down --rmi all --remove-orphans
+
+  ls:
+    desc: list images and containers belonging to this setup
+    cmds:
+      - cmd: docker-compose images
+      - cmd: docker-compose ps
+
+  log:
+    desc: tail logs
+    cmds:
+      - cmd: docker-compose logs -f
+
+  sh:
+    desc: open bash inside the application container
+    cmds:
+      - cmd: docker exec -it $(docker ps --filter 'Name=keycloak$'
+          -q) /bin/bash
+
+  bkp:
+    desc: make backup of vol folder
+    cmds:
+      - cmd: sh/make_vol_backup.sh
