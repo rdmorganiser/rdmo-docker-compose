@@ -1,5 +1,6 @@
 .imdone/
 .pytest_cache/
+.*cache
 tmp/
 vol/
 .env
