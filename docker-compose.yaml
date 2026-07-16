@@ -15,13 +15,20 @@ services:
   # exist yet, docker creates it as root, which that unprivileged user can't
   # write to. This fixes ownership once, as root, before the real services
   # start, without changing their (deliberately) unprivileged runtime user.
+  # It also refuses to start (after taking a backup) if the postgres major
+  # version on disk doesn't match POSTGRES_VERSION - see fixperms.sh.
   fixperms:
     image: busybox:latest
     container_name: ${GLOBAL_PREFIX:-rdc}-fixperms
     restart: "no"
-    command: sh -c "mkdir -p /vol/log /vol/postgres && chown -R ${LOCAL_UID:-1000}:${LOCAL_GID:-1000} /vol"
+    entrypoint: ["sh", "/fixperms.sh"]
+    environment:
+      LOCAL_UID: ${LOCAL_UID:-1000}
+      LOCAL_GID: ${LOCAL_GID:-1000}
+      POSTGRES_VERSION: ${POSTGRES_VERSION:-16}
     volumes:
       - ${VOLDIR:-./vol}:/vol
+      - ./docker/fixperms/fixperms.sh:/fixperms.sh:ro
 
   caddy:
     build:
@@ -64,7 +71,7 @@ services:
       fixperms:
         condition: service_completed_successfully
     volumes:
-      - ${VOLDIR:-./vol}/postgres:/var/lib/postgresql/data
+      - ${VOLDIR:-./vol}/postgres:${POSTGRES_DATA_MOUNT:-/var/lib/postgresql/data}
     env_file:
       - .env.defaults
       - path: .env

@@ -8,6 +8,7 @@
   - [Dockers](#dockers)
   - [Volumes](#volumes)
 - [Configuration &amp; Usage](#configuration--usage)
+- [Upgrading PostgreSQL](#upgrading-postgresql)
 - [Multiple RDMO Instances on a Single Docker Host](#multiple-rdmo-instances-on-a-single-docker-host)
 
 <!-- /toc -->
@@ -19,6 +20,8 @@ This repository contains RDMO docker images that are held together by [docker co
 ### Dockers
 
 Four containers are going to be created: `Caddy`, `PostgreSQL`, `RDMO`, and a short-lived `fixperms` helper. `caddy`, `postgres` and `rdmo` each run as an unprivileged, UID/GID-mapped user rather than root. `fixperms` runs once, as root, before the other three start: it creates `vol/log` and `vol/postgres` if they don't exist yet and makes sure they (and the rest of `vol/`) are owned by that same UID/GID, then exits. This is only needed because docker would otherwise create missing bind-mount folders as root, which the unprivileged containers couldn't write to; the three long-running services never run as root themselves.
+
+`fixperms` also compares the PostgreSQL major version already on disk (if any) against `POSTGRES_VERSION`. If they don't match, it backs up `vol/postgres` to a timestamped `.tar.gz` next to it and refuses to start the rest of the stack, rather than let a newer postgres either fail confusingly or silently start a fresh, empty database next to your real one. See [Upgrading PostgreSQL](#upgrading-postgresql) if you actually want to move to a new major version.
 
 ### Volumes
 
@@ -62,6 +65,29 @@ Note that `VOLDIR` is bind-mounted directly (not a named docker volume), so any 
 4. Import data from rdmo-catalog
 
    A fresh RDMO installation does not contain any data. You may want to import `conditions`, `domains`, `options`, `questions`, `tasks` and `views`. In the `RDMO container` there is a shell script that automatically clones the [rdmo-catalog repo](https://github.com/rdmorganiser/rdmo-catalog) and imports everything in it. If you consider it being helpful you could do `import-github-catalogues.sh`.
+
+## Upgrading PostgreSQL
+
+PostgreSQL 18 changed where it expects to be mounted: versions up to 17 want a bind mount directly at `/var/lib/postgresql/data`, which is what `POSTGRES_DATA_MOUNT` defaults to; 18 and newer want a single mount one level up, at `/var/lib/postgresql`, and manage their own version-named subdirectory (e.g. `vol/postgres/18/docker`) underneath it themselves.
+
+Bumping `POSTGRES_VERSION` alone does not convert existing data to a new major version's format - PostgreSQL major versions can't read each other's on-disk files directly, that needs `pg_dump`/`pg_restore` (or `pg_upgrade` with both binary versions available, which this setup doesn't wire up). `fixperms` guards against doing this by accident: it compares the major version already on disk against `POSTGRES_VERSION`, and if they differ, backs up `vol/postgres` and refuses to start rather than risk it (see [Structure](#structure)).
+
+To actually move to PostgreSQL 18+ on an existing instance:
+
+1. With the stack still on the old version, back up your data properly, e.g.:
+   ```shell
+   docker exec -t rdc-postgres pg_dump -U rdmo -d rdmo -Fc -f /tmp/rdmo.dump
+   docker cp rdc-postgres:/tmp/rdmo.dump ./rdmo.dump
+   ```
+2. Set `POSTGRES_VERSION=18` (or newer) and `POSTGRES_DATA_MOUNT=/var/lib/postgresql` in your `.env`.
+3. Start the stack. `fixperms` will find no existing data under the new layout and let postgres initialize a fresh, empty database.
+4. Restore your dump into it:
+   ```shell
+   docker cp ./rdmo.dump rdc-postgres:/tmp/rdmo.dump
+   docker exec -t rdc-postgres pg_restore -U rdmo -d rdmo /tmp/rdmo.dump
+   ```
+
+Starting a brand-new deployment directly on PostgreSQL 18+ is simpler: just set both variables above before the first `up` - there's no existing data for `fixperms` to compare against, so it proceeds normally.
 
 ## Multiple RDMO Instances on a Single Docker Host
 
